@@ -1,0 +1,27 @@
+model Service {
+    id                String  @id @default(uuid())
+    name              String
+    description       String?
+    durationInMinutes Int     @map("duration_in_minutes")
+    isActive          Boolean @default(true) @map("is_active")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    providerServices ProviderService[]
+    appointments     Appointment[]
+
+    @@map("services")
+}
+
+model ProviderService {
+    id String @id @default(uuid())
+
+    providerId String          @map("provider_id")
+    provider   ProviderProfile @relation(fields: [providerId], references: [id])
+    serviceId  String          @map("service_id")
+    service    Service         @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+    @@unique([providerId, serviceId])
+    @@map("provider_services")
+}

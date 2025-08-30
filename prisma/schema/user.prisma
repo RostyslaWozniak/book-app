@@ -1,0 +1,42 @@
+model User {
+    id          String  @id @default(uuid())
+    firstName   String
+    lastName    String
+    email       String  @unique
+    phoneNumber String? @map("phone_number")
+    photo       String?
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    roles         Roles[]            @default([CLIENT])
+    oauthAccounts UserOAuthAccount[]
+
+    providerProfile    ProviderProfile?
+    appointments       Appointment[]
+    providerScheduleId String?
+
+    @@map("users")
+}
+
+model UserOAuthAccount {
+    userId            String @map("user_id")
+    provider          String
+    providerAccountId String @unique() @map("provider_account_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([providerAccountId, provider])
+    @@map("user_oauth_accounts")
+}
+
+enum Roles {
+    ADMIN
+    PROVIDER
+    CLIENT
+
+    @@map("roles")
+}

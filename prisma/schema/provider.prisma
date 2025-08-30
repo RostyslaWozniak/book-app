@@ -1,0 +1,14 @@
+model ProviderProfile {
+    id          String  @id @default(uuid())
+    description String?
+
+    userId           String             @unique @map("user_id")
+    user             User               @relation(fields: [userId], references: [id])
+    services         ProviderService[]
+    providerSchedule ProviderSchedule[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("provider_profiles")
+}
