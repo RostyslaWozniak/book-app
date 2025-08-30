@@ -5,6 +5,8 @@ import {
   SidebarTrigger,
 } from "@/components/shadcn-ui/sidebar";
 import { Sidebar } from "@/components/sidebar";
+import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 export const metadata: Metadata = {
   title: "System dla rezerwacji wizyt online - Book App",
@@ -20,7 +22,12 @@ export default function ProviderLayout({
       <SidebarProvider>
         <Sidebar label="Panel administratora" items={adminSidebarNavData} />
         <SidebarTrigger className="lg:hidden" />
-        <main>{children}</main>
+        <main className="w-full">
+          <SectionWrapper paddingBlock="none" className="mt-4">
+            <Breadcrumb startWith="/admin" />
+          </SectionWrapper>
+          {children}
+        </main>
       </SidebarProvider>
     </>
   );

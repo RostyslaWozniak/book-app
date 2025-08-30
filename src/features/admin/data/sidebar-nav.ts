@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarIcon, ClockIcon, HomeIcon, PawPrintIcon } from "lucide-react";
+import { ClockIcon, HomeIcon, UsersIcon, WrenchIcon } from "lucide-react";
 
 export const adminSidebarNavData = [
   {
@@ -8,15 +8,16 @@ export const adminSidebarNavData = [
     title: "Panel",
     icon: HomeIcon,
   },
-  {
-    url: "/admin/schedule",
-    title: "Grafik",
-    icon: CalendarIcon,
-  },
+
   {
     url: "/admin/services",
     title: "Usługi",
-    icon: PawPrintIcon,
+    icon: WrenchIcon,
+  },
+  {
+    url: "/admin/clients",
+    title: "Klienci",
+    icon: UsersIcon,
   },
   {
     url: "/admin/availability",

@@ -15,11 +15,14 @@ import { HomeIcon } from "lucide-react";
 import { unslugify } from "@/lib/utils/slugify";
 
 const PATH_MAPPINT = {
+  admin: "Panel Administratora",
+  appointments: "Wizyty",
+  availability: "Dostępność",
+  clients: "Klienci",
+  new: "Nowa",
   profile: "Profil",
   provider: "Panel Stomatologa",
-  admin: "Panel Administratora",
-  availability: "Dostępność",
-  appointments: "Wizyty",
+  services: "Usługi",
 };
 
 export function Breadcrumb({
