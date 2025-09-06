@@ -3,7 +3,7 @@ import type { Service } from "../types/services.type";
 
 export function ServicesList({ services }: { services: Service[] }) {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {services.map((service) => (
         <ServiceCard
           key={service.id}

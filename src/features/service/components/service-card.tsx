@@ -6,14 +6,14 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/shadcn-ui/card";
-import type { RouterOutputs } from "@/trpc/react";
 import { H3 } from "@/components/ui/typography";
 import { cn } from "@/lib/utils/cn";
 import { AccessibleLink } from "@/components/ui/accesible-link";
 import { Button } from "@/components/shadcn-ui/button";
+import type { Service } from "../types/services.type";
 
 type ServiceCardProps = {
-  service: RouterOutputs["public"]["services"]["getAll"][number];
+  service: Service;
   href?: string;
   className?: string;
   showDescription?: boolean;
@@ -59,6 +59,7 @@ export function ServiceCard({
         </div>
         {bookButton && (
           <AccessibleLink
+            className="w-min"
             href={href ?? `/uslugi/nowa/${service.slug}`}
             aria-label="Przejdź do umawainia wizyty"
           >
