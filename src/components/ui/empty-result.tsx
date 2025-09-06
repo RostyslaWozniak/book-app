@@ -23,7 +23,7 @@ export function EmptyResult({
   return (
     <div
       className={cn(
-        "text-muted-foreground flex flex-col items-center justify-center rounded-lg border-2 border-dashed bg-gray-50 py-4 text-center",
+        "text-muted-foreground bg-muted flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-4 text-center",
         className,
       )}
     >

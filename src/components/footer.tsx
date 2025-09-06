@@ -2,7 +2,7 @@ import { MaxWidthWrapper } from "./ui/max-width-wrapper";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-100">
+    <footer className="bg-card">
       <MaxWidthWrapper>Footer</MaxWidthWrapper>
     </footer>
   );

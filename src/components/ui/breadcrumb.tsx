@@ -19,10 +19,14 @@ const PATH_MAPPINT = {
   appointments: "Wizyty",
   availability: "Dostępność",
   clients: "Klienci",
+  employees: "Pracownicy",
+  login: "Logowanie",
   new: "Nowa",
   profile: "Profil",
-  provider: "Panel Stomatologa",
+  provider: "Panel specjalisty",
+  registration: "Rejestracja",
   services: "Usługi",
+  schedule: "Grafik",
 };
 
 export function Breadcrumb({
@@ -72,11 +76,10 @@ export function Breadcrumb({
                 }
               >
                 <HomeIcon />
-                {isCustomStart
-                  ? pathMapping?.[
-                      unslugify(startPath.split("/").pop() ?? startPath)
-                    ]
-                  : "Strona główna"}
+                {isCustomStart &&
+                  pathMapping?.[
+                    unslugify(startPath.split("/").pop() ?? startPath)
+                  ]}
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>

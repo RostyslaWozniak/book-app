@@ -10,6 +10,7 @@ import { generateSecureVerificationCode } from "../lib/generate-secure-verifcati
 import { sendVerificationCodeEmail } from "../lib/send-verification-email";
 import { signUpSchema, type SignUpSchema } from "../schemas/sign-up-schema";
 import { api } from "@/trpc/server";
+import { redisVerificationSchema } from "../schemas/verification-code-schema";
 
 export async function signUpAction(
   unsafeData: SignUpSchema,
@@ -44,13 +45,19 @@ export async function signUpAction(
   // SEND EMAIL WITH VERIFICATION CODE
   await sendVerificationCodeEmail(newUser.email, verificationCode);
 
+  const { data: redisData, success } = redisVerificationSchema.safeParse({
+    verificationCode,
+    userId: newUser.id,
+  });
+
+  if (!success) {
+    return "Błąd walidacji danych session";
+  }
+
   // SAVE DATA IN REDIS DATABASE FOR 5 MIN
   await redisClient.set(
     `${REDIS_EMAIL_VERIFICATION_KEY}:${verificationToken}`,
-    {
-      verificationCode,
-      ...newUser,
-    },
+    redisData,
     {
       ex: EMAIL_VERIFICATION_CODE_TTL_IN_SEC,
     },

@@ -4,7 +4,7 @@ model ProviderSchedule {
     providerProfile          ProviderProfile                @relation(fields: [providerProfileId], references: [id], onDelete: Cascade)
     availabilities           ProviderScheduleAvailability[]
     appointments             Appointment[]
-    ProviderScheduleOverride ProviderScheduleOverride[]
+    providerScheduleOverride ProviderScheduleOverride[]
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")

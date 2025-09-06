@@ -21,7 +21,7 @@ export default function PrivateLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pl" className={`${geist.variable}`}>
-      <body className="flex min-h-screen flex-col">
+      <body className="dark flex min-h-screen flex-col">
         <Providers>
           <main className="flex-grow">{children}</main>
           <Toaster richColors />

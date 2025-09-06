@@ -26,7 +26,7 @@ export function TableSkeleton({
           <TableRow>
             {columns.map((_, i) => (
               <TableCell key={i}>
-                <Skeleton className="h-8" />
+                <Skeleton className="h-6" />
               </TableCell>
             ))}
           </TableRow>

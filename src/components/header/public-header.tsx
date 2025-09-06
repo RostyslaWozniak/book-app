@@ -13,10 +13,10 @@ const navigation = [
 
 export function PublicHeader() {
   return (
-    <header className="bg-gray-50 py-2">
+    <header className="bg-muted py-2">
       <MaxWidthWrapper className="flex items-center justify-between">
         <nav>
-          <ul className="flex gap-x-4">
+          <ul className="hidden gap-x-4 md:flex">
             {navigation.map(({ ariaLabel, label, href }) => (
               <li key={href} className="hover:underline">
                 <AccessibleLink href={href} aria-label={ariaLabel}>
@@ -26,7 +26,10 @@ export function PublicHeader() {
             ))}
           </ul>
         </nav>
-        <div>
+        <div className="flex gap-x-2">
+          <AccessibleLink href="/uslugi/nowa" aria-label="Przejdź do wizyt">
+            <Button>Umów wizytę</Button>
+          </AccessibleLink>
           <AccessibleLink href="/login" aria-label="Przejdź do logowania">
             <Button>Zaloguj się</Button>
           </AccessibleLink>

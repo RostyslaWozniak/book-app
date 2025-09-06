@@ -6,6 +6,9 @@ import { Toaster } from "@/components/shadcn-ui/sonner";
 import { PublicHeader } from "@/components/header/public-header";
 import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
+import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 
 export const metadata: Metadata = {
   title: {
@@ -26,10 +29,18 @@ export default function PublicLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pl" className={`${geist.variable}`}>
-      <body className="flex min-h-screen flex-col">
+      <body className="dark flex min-h-screen flex-col">
         <Providers>
           <PublicHeader />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow">
+            {" "}
+            <SectionWrapper paddingBlock="none" className="mt-4">
+              <MaxWidthWrapper>
+                <Breadcrumb />
+              </MaxWidthWrapper>
+            </SectionWrapper>
+            {children}
+          </main>
           <Footer />
           <Toaster richColors />
         </Providers>

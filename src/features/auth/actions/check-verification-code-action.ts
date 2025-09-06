@@ -2,6 +2,7 @@
 
 import { redisClient } from "@/lib/services/redis";
 import {
+  redisVerificationSchema,
   verificationCodeSchema,
   type VerificationCodeSchema,
 } from "../schemas/verification-code-schema";
@@ -13,7 +14,7 @@ import {
   EMAIL_VERIFICATION_CODE_TTL_IN_MIN,
   REDIS_EMAIL_VERIFICATION_KEY,
 } from "../constants";
-import { $Enums } from "@prisma/client";
+import { db } from "@/server/db";
 
 export async function checkVerificationCodeAction(
   unsafeData: VerificationCodeSchema & { verificationToken: string },
@@ -29,20 +30,8 @@ export async function checkVerificationCodeAction(
     `${REDIS_EMAIL_VERIFICATION_KEY}:${parsedCode.verificationToken}`,
   );
 
-  const { data: parsedRedisData, success } = z
-    .object({
-      verificationCode: z.string().length(6),
-      id: z.string().uuid(),
-      email: z.string().email(),
-      roles: z.array(
-        z.enum([
-          $Enums.Roles.ADMIN,
-          $Enums.Roles.CLIENT,
-          $Enums.Roles.PROVIDER,
-        ]),
-      ),
-    })
-    .safeParse(rawRedisData);
+  const { data: parsedRedisData, success } =
+    redisVerificationSchema.safeParse(rawRedisData);
 
   if (!success || !parsedRedisData) {
     redirect(
@@ -54,13 +43,27 @@ export async function checkVerificationCodeAction(
     return "Invalid verification code";
   }
 
-  await createUserSession(
-    { id: parsedRedisData.id, roles: parsedRedisData.roles },
-    await cookies(),
-  );
-  const redirectPath = parsedRedisData.roles.includes("ADMIN")
+  const user = await db.user.findUnique({
+    where: { id: parsedRedisData.userId },
+  });
+
+  if (user == null) {
+    return "Brak danych użytkownika";
+  }
+
+  await db.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      isVerified: true,
+    },
+  });
+
+  await createUserSession({ id: user.id, roles: user.roles }, await cookies());
+  const redirectPath = user.roles.includes("ADMIN")
     ? "/admin"
-    : parsedRedisData.roles.includes("PROVIDER")
+    : user.roles.includes("PROVIDER")
       ? "/provider"
       : "/profile";
   redirect(redirectPath);

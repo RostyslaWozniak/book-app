@@ -6,7 +6,7 @@ import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { H1 } from "@/components/ui/typography";
 import { ServicesTable } from "@/features/service/components/services-table";
 import { cn } from "@/lib/utils/cn";
-import { Loader, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { Suspense } from "react";
 
 export default function AdminServicesPage() {

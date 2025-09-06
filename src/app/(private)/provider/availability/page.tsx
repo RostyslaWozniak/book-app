@@ -6,7 +6,7 @@ export default function ProviderAvailabilityPage() {
   return (
     <>
       <SectionWrapper paddingBlock="xs">
-        <MaxWidthWrapper className="max-w-full">
+        <MaxWidthWrapper className="@container max-w-full">
           <AvailabilityManager />
         </MaxWidthWrapper>
       </SectionWrapper>

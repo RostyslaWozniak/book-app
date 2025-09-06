@@ -1,20 +1,22 @@
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import { SectionHeader } from "@/components/ui/section-header";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { H1 } from "@/components/ui/typography";
 import { getCurrentUser } from "@/features/auth/current-user";
+import { ProviderProfileHeader } from "@/features/provider/components/provider-profile-header";
 import { Suspense } from "react";
 
 export default function ProfilePage() {
   return (
     <>
-      <SectionWrapper>
+      <SectionWrapper paddingBlock="xs">
         <MaxWidthWrapper>
           <Suspense fallback={<SectionHeader title="Loading..." />}>
-            <SuspendedHeaderSection />
+            <ProviderProfileHeader />
           </Suspense>
         </MaxWidthWrapper>
       </SectionWrapper>
-      <SectionWrapper>
+      <SectionWrapper paddingBlock="xs">
         <MaxWidthWrapper>
           <p>Next content on this page:</p>
           <p>
@@ -42,5 +44,7 @@ async function SuspendedHeaderSection() {
     redirectIfNotFound: true,
   });
 
-  return <SectionHeader title={`Hello Provider ${user.firstName}`} />;
+  return (
+    <SectionHeader heading={H1} title={`Hello Provider ${user.firstName}`} />
+  );
 }

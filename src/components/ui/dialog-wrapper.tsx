@@ -55,7 +55,7 @@ export const DialogWrapper = ({
                 {description}
               </DrawerDescription>
             </DrawerHeader>
-
+            {children}
             <DrawerFooter className="pt-2">
               {closeButton && (
                 <DrawerClose
@@ -68,7 +68,6 @@ export const DialogWrapper = ({
                   {closeButton}
                 </DrawerClose>
               )}
-              {children}
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

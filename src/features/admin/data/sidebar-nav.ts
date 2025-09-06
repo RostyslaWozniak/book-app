@@ -1,6 +1,6 @@
 "use client";
 
-import { ClockIcon, HomeIcon, UsersIcon, WrenchIcon } from "lucide-react";
+import { HomeIcon, UserCogIcon, UsersIcon, WrenchIcon } from "lucide-react";
 
 export const adminSidebarNavData = [
   {
@@ -20,8 +20,8 @@ export const adminSidebarNavData = [
     icon: UsersIcon,
   },
   {
-    url: "/admin/availability",
-    title: "Dostępność",
-    icon: ClockIcon,
+    url: "/admin/employees",
+    title: "Pracownicy",
+    icon: UserCogIcon,
   },
 ];

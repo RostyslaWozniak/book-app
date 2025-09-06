@@ -19,7 +19,6 @@ import {
   SelectValue,
 } from "@/components/shadcn-ui/select";
 import { Button } from "@/components/shadcn-ui/button";
-import { Input } from "@/components/shadcn-ui/input";
 import { formatDayOfWeek, getWeekTypeLabel } from "../lib/dates";
 import { api, type RouterOutputs } from "@/trpc/react";
 import { toast } from "sonner";
@@ -28,6 +27,7 @@ import {
   createProviderAvailabilitySchema,
   type CreateProviderAvailabilitySchema,
 } from "../lib/validation/provider-schedule-availability";
+import { TimePickerWeel } from "@/features/availability/components/time-picker-weel";
 
 type AvailabilityFormProps = {
   initialData?: RouterOutputs["provider"]["availability"]["getOwnAvailabilities"][number];
@@ -156,7 +156,15 @@ export function AvailabilityForm({
               <FormItem>
                 <FormLabel>Start</FormLabel>
                 <FormControl>
-                  <Input type="time" {...field} />
+                  <TimePickerWeel
+                    onChange={field.onChange}
+                    defaultHours={
+                      form.getValues("startTime").split(":")[0] ?? "09"
+                    }
+                    defaultMinutes={
+                      form.getValues("startTime").split(":")[1] ?? "00"
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -170,7 +178,15 @@ export function AvailabilityForm({
               <FormItem>
                 <FormLabel>Koniec</FormLabel>
                 <FormControl>
-                  <Input type="time" {...field} />
+                  <TimePickerWeel
+                    onChange={field.onChange}
+                    defaultHours={
+                      form.getValues("endTime").split(":")[0] ?? "17"
+                    }
+                    defaultMinutes={
+                      form.getValues("endTime").split(":")[1] ?? "00"
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

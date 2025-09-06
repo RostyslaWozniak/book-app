@@ -2,12 +2,12 @@
 
 import { type ColumnDef } from "@tanstack/react-table";
 import { SettingsIcon } from "lucide-react";
-import { ClientsTableSetings } from "./users-table-settings";
+import { ClientsTableSetings } from "../users-table-settings";
 import type { User } from "@prisma/client";
-import { mapRoles } from "../../lib/map-roles";
+import { mapRoles } from "../../../lib/map-roles";
 import { Avatar } from "@/components/ui/avatar";
 
-export const usersTableColumns: ColumnDef<User>[] = [
+export const clientsTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "photo",
     header: "Zdjecie",
@@ -29,25 +29,19 @@ export const usersTableColumns: ColumnDef<User>[] = [
     ),
   },
   {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => <div className="w-min">{row.original.email}</div>,
+    accessorKey: "role",
+    header: "Role",
+    cell: ({ row }) => mapRoles(row.original.roles),
   },
   {
-    accessorKey: "role",
-    header: "Rola",
-    cell: ({ row }) => (
-      <div className="w-100">{mapRoles(row.original.roles)}</div>
-    ),
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => <p className="w-full"> {row.original.email}</p>,
   },
 
   {
     accessorKey: "settings",
     header: () => <SettingsIcon />,
-    cell: ({ row }) => (
-      <div className="w-min">
-        <ClientsTableSetings user={row.original} />
-      </div>
-    ),
+    cell: ({ row }) => <ClientsTableSetings user={row.original} />,
   },
 ];

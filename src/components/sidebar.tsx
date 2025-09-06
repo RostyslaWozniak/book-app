@@ -20,11 +20,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 type SidebarProps = {
+  children: React.ReactNode;
   label: string;
   items: { title: string; url: string; icon: LucideIcon }[];
 };
 
-export function Sidebar({ label, items }: SidebarProps) {
+export function Sidebar({ children, label, items }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -57,6 +58,7 @@ export function Sidebar({ label, items }: SidebarProps) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        {children}
         <LogoutDialog />
       </SidebarFooter>
     </ShadcnUISidebar>

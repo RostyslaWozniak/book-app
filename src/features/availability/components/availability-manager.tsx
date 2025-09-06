@@ -25,7 +25,7 @@ export function AvailabilityManager() {
     api.provider.availability.getOwnAvailabilities.useQuery();
 
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
+    <div className="grid gap-8 @min-4xl:grid-cols-2 @min-7xl:grid-cols-3">
       {Object.values(ScheduleDayOfWeek).map((day) => (
         <Card key={day}>
           <CardHeader className="flex flex-row items-center justify-between">

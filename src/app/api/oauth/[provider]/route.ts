@@ -68,6 +68,7 @@ function connectUserToAccount(
           lastName: lastName ?? "",
           email,
           photo,
+          isVerified: true,
         },
       });
       user = newUser;

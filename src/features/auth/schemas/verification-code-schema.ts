@@ -5,3 +5,8 @@ export const verificationCodeSchema = z.object({
 });
 
 export type VerificationCodeSchema = z.infer<typeof verificationCodeSchema>;
+
+export const redisVerificationSchema = z.object({
+  verificationCode: z.string().length(6),
+  userId: z.string().uuid(),
+});
