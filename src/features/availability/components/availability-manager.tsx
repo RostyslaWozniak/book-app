@@ -36,8 +36,7 @@ export function AvailabilityManager() {
           </CardHeader>
           <CardContent>
             {isAvalabilityLoading ? (
-              <div className="grid w-full gap-2 [&>div]:h-10">
-                <Skeleton />
+              <div className="grid w-full gap-2 [&>div]:h-11">
                 <Skeleton />
                 <Skeleton />
               </div>

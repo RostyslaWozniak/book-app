@@ -24,10 +24,11 @@ function WheelPickerWrapper({
   );
 }
 
-function WheelPicker({
-  classNames,
-  ...props
-}: React.ComponentProps<typeof WheelPickerPrimitive.WheelPicker>) {
+export type WeelPickerProps = React.ComponentProps<
+  typeof WheelPickerPrimitive.WheelPicker
+>;
+
+function WheelPicker({ classNames, ...props }: WeelPickerProps) {
   return (
     <WheelPickerPrimitive.WheelPicker
       classNames={{

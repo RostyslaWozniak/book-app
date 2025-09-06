@@ -11,13 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shadcn-ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/shadcn-ui/select";
+
 import { Button } from "@/components/shadcn-ui/button";
 import { formatDayOfWeek, getWeekTypeLabel } from "../lib/dates";
 import { api, type RouterOutputs } from "@/trpc/react";
@@ -27,7 +21,8 @@ import {
   createProviderAvailabilitySchema,
   type CreateProviderAvailabilitySchema,
 } from "../lib/validation/provider-schedule-availability";
-import { TimePickerWeel } from "@/features/availability/components/time-picker-weel";
+import { TimePickerWeel } from "@/components/ui/time-picker-weel";
+import { WheelPicker, WheelPickerWrapper } from "@/components/wheel-picker";
 
 type AvailabilityFormProps = {
   initialData?: RouterOutputs["provider"]["availability"]["getOwnAvailabilities"][number];
@@ -93,23 +88,22 @@ export function AvailabilityForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Dzień tygodnia</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select day" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {Object.values(ScheduleDayOfWeek).map((day) => (
-                      <SelectItem key={day} value={day}>
-                        {formatDayOfWeek(day)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+
+                <FormControl>
+                  <WheelPickerWrapper>
+                    <WheelPicker
+                      options={Object.values(ScheduleDayOfWeek).map((day) => ({
+                        label: formatDayOfWeek(day),
+                        value: day,
+                      }))}
+                      infinite
+                      visibleCount={14}
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                    />
+                  </WheelPickerWrapper>
+                </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -121,29 +115,20 @@ export function AvailabilityForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Rodzaj tygodnia</FormLabel>
-                <Select
-                  onValueChange={(value) => field.onChange(value)}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select week type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value={WeekType.ALL}>
-                      {getWeekTypeLabel(WeekType.ALL)}
-                    </SelectItem>
-                    <SelectItem value={WeekType.ODD}>
-                      {" "}
-                      {getWeekTypeLabel(WeekType.ODD)}
-                    </SelectItem>
-                    <SelectItem value={WeekType.EVEN}>
-                      {" "}
-                      {getWeekTypeLabel(WeekType.EVEN)}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <WheelPickerWrapper>
+                    <WheelPicker
+                      options={Object.values(WeekType).map((type) => ({
+                        label: getWeekTypeLabel(type),
+                        value: type,
+                      }))}
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      visibleCount={14}
+                    />
+                  </WheelPickerWrapper>
+                </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
