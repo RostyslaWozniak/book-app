@@ -5,6 +5,6 @@ import { publicUserRouter } from "./user";
 
 export const publicRouter = createTRPCRouter({
   user: publicUserRouter,
-  services: publicServicesRouter,
-  appointments: publicAppointmentRouter,
+  service: publicServicesRouter,
+  appointment: publicAppointmentRouter,
 });

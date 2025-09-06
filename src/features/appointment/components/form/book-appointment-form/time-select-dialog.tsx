@@ -33,7 +33,7 @@ export function TimeSelectDialog({
   } = useBookAppointmentFormContext();
 
   const { data: timeSlots, isLoading } =
-    api.public.appointments.getAvailableTimeSlotsForDay.useQuery(
+    api.public.appointment.getAvailableTimeSlotsForDay.useQuery(
       {
         serviceId,
         day: watchDate!,

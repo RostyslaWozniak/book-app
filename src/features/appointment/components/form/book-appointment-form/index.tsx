@@ -48,7 +48,7 @@ export function BookAppointmentForm({
   });
 
   const { mutate: bookAppointment, isPending } =
-    api.public.appointments.book.useMutation({
+    api.public.appointment.book.useMutation({
       onSuccess: () => {
         toast.success("Wizutę zarezerwowano");
         // router.push("/");

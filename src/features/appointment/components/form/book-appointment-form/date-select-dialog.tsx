@@ -37,7 +37,7 @@ export function DateSelectDialog({
   const [startDay, setStartDay] = useState<Date | null>(null);
 
   const { data: validDates, isLoading } =
-    api.public.appointments.getAvailableDays.useQuery({
+    api.public.appointment.getAvailableDays.useQuery({
       serviceId,
       startDate: getStartDate(startDay),
       providerSlug,

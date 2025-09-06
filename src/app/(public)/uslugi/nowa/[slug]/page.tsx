@@ -34,7 +34,7 @@ import { Suspense } from "react";
 import { BookAppointmentForm } from "@/features/appointment/components/form/book-appointment-form";
 
 async function BookAppointmentSection({ slug }: { slug: string }) {
-  const service = await api.public.services.getOneBySlug({ slug });
+  const service = await api.public.service.getOneBySlug({ slug });
 
   if (!service) return notFound();
   return (
