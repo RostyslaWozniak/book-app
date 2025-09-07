@@ -9,6 +9,7 @@ import { Providers } from "@/components/providers";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
+import { PublicMobileNav } from "@/components/mobile-nav/public-mobile-nav";
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +43,7 @@ export default function PublicLayout({
             {children}
           </main>
           <Footer />
+          <PublicMobileNav />
           <Toaster richColors />
         </Providers>
       </body>
