@@ -19,9 +19,9 @@ export const publicServicesRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       const { take, skip, search, orderBy, order } = {
-        take: 9,
+        take: 10,
         skip: 0,
-        orderBy: "updatedAt",
+        orderBy: "createdAt",
         order: "desc",
         ...input,
       };

@@ -5,6 +5,7 @@ export const createServiceSchema = z.object({
   description: z.string().optional(),
   durationInMinutes: z.coerce.number().int().positive("Czas musi być dodatni"),
   isActive: z.boolean().default(true).optional(),
+  slug: z.string().min(1, "Pole jest wymagane"),
 });
 
 export type CreateServiceSchema = z.infer<typeof createServiceSchema>;

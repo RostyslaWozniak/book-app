@@ -22,6 +22,8 @@ import {
 } from "../../lib/validation/create-service-schema";
 import type { AdminService } from "../../types/services.type";
 import { toast } from "sonner";
+import { useEffect } from "react";
+import { slugify } from "@/lib/utils/slugify";
 
 export function CreateUpdateServiceForm({
   service,
@@ -39,6 +41,7 @@ export function CreateUpdateServiceForm({
       description: service ? (service.description ?? undefined) : undefined,
       durationInMinutes: service ? service.durationInMinutes : 15,
       isActive: service ? service.isActive : true,
+      slug: service ? service.slug : "",
     },
   });
 
@@ -70,6 +73,14 @@ export function CreateUpdateServiceForm({
       createService(values);
     }
   }
+
+  const watchServiceName = form.watch("name");
+
+  useEffect(() => {
+    console.log("HELLO");
+    form.setValue("slug", slugify(watchServiceName));
+  }, [watchServiceName, form]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -105,6 +116,23 @@ export function CreateUpdateServiceForm({
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publiczny url</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Wpisz widoczne dla użytkowników url"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="description"

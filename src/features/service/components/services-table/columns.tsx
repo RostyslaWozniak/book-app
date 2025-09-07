@@ -33,6 +33,11 @@ export const serviceTableColumns: ColumnDef<AdminService>[] = [
     ),
   },
   {
+    accessorKey: "url",
+    header: "Url",
+    cell: ({ row }) => <p className="text-wrap">{row.original.slug}</p>,
+  },
+  {
     accessorKey: "description",
     header: "Opis",
     cell: ({ row }) => (
