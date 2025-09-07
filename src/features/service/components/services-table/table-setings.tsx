@@ -11,7 +11,7 @@ import { useState } from "react";
 import { CreateUpdateServiceForm } from "../forms/create-update-service-form";
 
 import { DeleteServiceButton } from "./delete-service-button";
-import type { AdminService } from "../../types/service";
+import type { AdminService } from "../../types/services.type";
 import { IconMenu } from "@/components/ui/icon-menu";
 
 export function ServiceTableSetings({ service }: { service: AdminService }) {

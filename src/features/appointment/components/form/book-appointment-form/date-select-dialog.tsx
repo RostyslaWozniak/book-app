@@ -45,7 +45,7 @@ export function DateSelectDialog({
 
   function handleSelectDay(date?: Date) {
     resetTimeField();
-    field.onChange(date);
+    field.onChange(date ?? field.value);
     setIsDateDialogOpen(false);
     setIsTimeDialogOpen(true);
   }
@@ -76,6 +76,7 @@ export function DateSelectDialog({
       >
         {isLoading && <FormLoader />}
         <Calendar
+          timeZone="UTC"
           onPrevClick={hadnlePrevNextClick}
           onNextClick={hadnlePrevNextClick}
           mode="single"

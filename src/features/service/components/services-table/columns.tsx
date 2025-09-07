@@ -4,7 +4,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/shadcn-ui/badge";
 import { Settings } from "lucide-react";
 import { ServiceTableSetings } from "./table-setings";
-import type { AdminService } from "../../types/service";
+import type { AdminService } from "../../types/services.type";
 
 export const serviceTableColumns: ColumnDef<AdminService>[] = [
   {

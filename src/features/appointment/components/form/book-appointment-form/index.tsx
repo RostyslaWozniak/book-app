@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BookAppointmentFormContext } from "./context";
 import { useForm } from "react-hook-form";
 import {
@@ -24,6 +24,8 @@ import { TimeSelectDialog } from "./time-select-dialog";
 import { Input } from "@/components/shadcn-ui/input";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { appointmentsData } from "prisma/data/appointments";
+import { cn } from "@/lib/utils/cn";
 
 export function BookAppointmentForm({
   serviceId,
@@ -59,6 +61,21 @@ export function BookAppointmentForm({
     });
   async function onSubmit(values: AppointmentFormSchema) {
     bookAppointment({ ...values, serviceId });
+    // appointmentsData.map(
+    //   ({ contactEmail, contactName, contactPhone, startTime, notes }) => {
+    //     console.log(values);
+    // bookAppointment({
+    //   contactEmail,
+    //   contactName,
+    //   contactPhone: contactPhone ?? undefined,
+    //   startTime: new Date(
+    //     new Date().setUTCDate(new Date(startTime).getTime()),
+    //   ),
+    //   notes: notes ?? undefined,
+    //   serviceId,
+    // });
+    // },
+    // );
   }
 
   const watchDate = form.watch("date");
@@ -81,7 +98,7 @@ export function BookAppointmentForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
+          className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-6"
         >
           <FormField
             control={form.control}
@@ -101,7 +118,9 @@ export function BookAppointmentForm({
             name="startTime"
             render={({ field }) => (
               <FormItem className="relative">
-                <FormLabel>Czas *</FormLabel>
+                <FormLabel className={cn({ "opacity-50": !watchDate })}>
+                  Czas *
+                </FormLabel>
                 <FormControl>
                   <TimeSelectDialog field={field} />
                 </FormControl>
@@ -150,7 +169,7 @@ export function BookAppointmentForm({
               </FormItem>
             )}
           />
-          <div className="flex gap-2 sm:justify-end">
+          <div className="flex gap-2 sm:justify-end md:col-span-2">
             <LoadingButton
               loading={isPending}
               type="submit"

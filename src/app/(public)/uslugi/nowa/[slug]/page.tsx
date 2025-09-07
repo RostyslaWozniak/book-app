@@ -38,7 +38,7 @@ async function BookAppointmentSection({ slug }: { slug: string }) {
 
   if (!service) return notFound();
   return (
-    <Card className="mx-auto max-w-3xl">
+    <Card className="sm:bg-card srounded-none -mx-4 max-w-3xl border-0 bg-transparent shadow-none sm:mx-auto sm:rounded-md sm:border">
       <CardHeader>
         <CardTitle className="text-2xl font-normal">
           Rezerwacja usługi <br />

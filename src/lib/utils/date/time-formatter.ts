@@ -1,7 +1,7 @@
 export const timeFormatter = new Intl.DateTimeFormat("pl-PL", {
   hour: "numeric",
   minute: "numeric",
-  // timeZone: "UTC",
+  timeZone: "Europe/Warsaw",
 });
 
 export function dateToTimeString(date?: Date) {

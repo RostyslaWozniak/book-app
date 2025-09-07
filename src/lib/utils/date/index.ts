@@ -9,11 +9,9 @@ export function availabilityTimeToInt(time: string) {
 
 export function getStartDate(date?: Date | null) {
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDay());
-  if (!date) return today;
-  const firstDateOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-
-  return today > firstDateOfMonth ? today : firstDateOfMonth;
+  const today = new Date(now.setUTCSeconds(0, 0));
+  if (!date) return now;
+  return today > date ? today : date;
 }
 
 // checks if date is the same
@@ -91,4 +89,11 @@ function getDateWeek(date: Date) {
     : dateTime > nextMondayTime
       ? Math.ceil((dateTime - nextMondayTime) / (24 * 3600 * 1000) / 7)
       : 1;
+}
+
+export function timeStringToDateUTC(time: string, day: Date) {
+  const hours = parseInt(time.split(":")[0]!);
+  const minutes = parseInt(time.split(":")[1]!);
+
+  return new Date(day.setUTCHours(hours, minutes, 0, 0));
 }

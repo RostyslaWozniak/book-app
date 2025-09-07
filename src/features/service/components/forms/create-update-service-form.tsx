@@ -20,7 +20,7 @@ import {
   createServiceSchema,
   type CreateServiceSchema,
 } from "../../lib/validation/create-service-schema";
-import type { AdminService } from "../../types/service";
+import type { AdminService } from "../../types/services.type";
 import { toast } from "sonner";
 
 export function CreateUpdateServiceForm({

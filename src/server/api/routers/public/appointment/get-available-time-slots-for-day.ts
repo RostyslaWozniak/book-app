@@ -1,17 +1,16 @@
-import { getWeekDay, getWeekType } from "@/lib/utils/date";
+import { getWeekDay, getWeekType, timeStringToDateUTC } from "@/lib/utils/date";
 import { publicProcedure } from "@/server/api/procedures/public-procedure";
 import { TRPCError } from "@trpc/server";
 import {
   addMinutes,
   areIntervalsOverlapping,
   eachMinuteOfInterval,
-  endOfDay,
   isBefore,
   isWithinInterval,
+  roundToNearestMinutes,
   startOfDay,
 } from "date-fns";
 import z from "zod";
-import { timeStringToDate } from "@/features/appointment/lib/helpers";
 
 const SLOT_STEP_IN_MIN = 15;
 
@@ -30,7 +29,7 @@ export const getAvailableTimeSlotsForDay = publicProcedure
     if (isBefore(day, startOfDay(new Date()))) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "Cannot get slots for past dates",
+        message: "Nie udało się uzyskać miejsc na daty z przeszłości",
       });
     }
 
@@ -64,8 +63,11 @@ export const getAvailableTimeSlotsForDay = publicProcedure
     const dayOfWeek = getWeekDay(day);
     const weekType = getWeekType(day);
 
-    const startOfTheDay = startOfDay(day);
-    const endOfTheDay = endOfDay(day);
+    const startOfTheDay = roundToNearestMinutes(day, {
+      nearestTo: 15,
+      roundingMethod: "ceil",
+    });
+    const endOfTheDay = new Date(day.setUTCHours(23, 59, 59, 999));
 
     const timesInOrder = eachMinuteOfInterval(
       { start: startOfTheDay, end: endOfTheDay },
@@ -112,9 +114,10 @@ export const getAvailableTimeSlotsForDay = publicProcedure
       select: {
         startTime: true,
         endTime: true,
+        providerScheduleId: true,
       },
     });
-    // console.log(timesInOrder);
+
     return timesInOrder.filter((intervalDate) => {
       const appointmentInterval = {
         start: intervalDate,
@@ -122,14 +125,18 @@ export const getAvailableTimeSlotsForDay = publicProcedure
       };
 
       return availabilities.some((availability) => {
-        const startDate = timeStringToDate(availability.startTime, day);
-        const endDate = timeStringToDate(availability.endTime, day);
+        const startDate = timeStringToDateUTC(availability.startTime, day);
+        const endDate = timeStringToDateUTC(availability.endTime, day);
+
         return (
-          appointments.every(({ startTime, endTime }) => {
-            return !areIntervalsOverlapping(
-              { start: startTime, end: endTime },
-              appointmentInterval,
-            );
+          appointments.every(({ startTime, endTime, providerScheduleId }) => {
+            if (providerScheduleId === availability.providerScheduleId) {
+              return !areIntervalsOverlapping(
+                { start: startTime, end: endTime },
+                appointmentInterval,
+              );
+            }
+            return true;
           }) &&
           isWithinInterval(appointmentInterval.start, {
             start: startDate,

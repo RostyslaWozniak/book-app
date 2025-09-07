@@ -2,7 +2,7 @@ import { Button } from "@/components/shadcn-ui/button";
 import { DialogWrapper } from "@/components/ui/dialog-wrapper";
 import { useBookAppointmentFormContext } from "./context";
 import type { ControllerRenderProps } from "react-hook-form";
-import { dateToTimeString } from "@/lib/utils/date";
+import { dateToTimeString, getStartDate } from "@/lib/utils/date";
 import { api } from "@/trpc/react";
 import { FormBackButton } from "./form-back-button";
 import { FormLoader } from "./form-loader";
@@ -36,7 +36,7 @@ export function TimeSelectDialog({
     api.public.appointment.getAvailableTimeSlotsForDay.useQuery(
       {
         serviceId,
-        day: watchDate!,
+        day: getStartDate(watchDate),
         providerSlug,
       },
       { enabled: !!watchDate },
@@ -48,14 +48,13 @@ export function TimeSelectDialog({
     nameInputRef.current?.focus();
   }
 
-  console.log(timeSlots);
-
   return (
     <>
       <Button
         type="button"
         onClick={() => setIsTimeDialogOpen(true)}
         variant="outline"
+        disabled={!watchDate}
       >
         <span className="absolute left-4">
           {dateToTimeString(field.value) ?? (
@@ -78,7 +77,7 @@ export function TimeSelectDialog({
             }}
           />
         </div>
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-4 gap-2">
           {timeSlots?.map((time) => (
             <Button
               variant={

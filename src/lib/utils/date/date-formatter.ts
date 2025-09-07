@@ -1,6 +1,6 @@
 export const dateFormatter = new Intl.DateTimeFormat("pl-PL", {
   dateStyle: "medium",
-  // timeZone: "UTC",
+  timeZone: "Europe/Warsaw",
 });
 
 export function dateToString(date?: Date): string | null {

@@ -15,7 +15,7 @@ export function ClientsTableSetings({
 }: {
   user: {
     id: string;
-    slug: string;
+    slug?: string;
     roles: $Enums.Roles[];
   };
 }) {
@@ -33,16 +33,21 @@ export function ClientsTableSetings({
       </DialogWrapper>
 
       <DropdownWrapper vertical className="w-52">
-        <DropdownMenuItem>
-          <Link href={`/admin/employees/${user.slug}`}>
-            <IconMenu icon={UserIcon} text="Zobacz profil " />
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link href={`/admin/employees/${user.slug}/schedule`}>
-            <IconMenu icon={CalendarIcon} text="Zobacz grifik " />
-          </Link>
-        </DropdownMenuItem>
+        {user.slug && (
+          <>
+            <DropdownMenuItem>
+              <Link href={`/admin/employees/${user.slug}`}>
+                <IconMenu icon={UserIcon} text="Zobacz profil " />
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/employees/${user.slug}/schedule`}>
+                <IconMenu icon={CalendarIcon} text="Zobacz grifik " />
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
+
         <DropdownMenuItem onClick={() => setIsEditOpen(true)}>
           <IconMenu icon={Edit} text="Zmień uprawnienia" />
         </DropdownMenuItem>
