@@ -1,0 +1,218 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// --------------------------------- USER ------------------------------------
+// ---------------------------------------------------------------------------
+
+model User {
+    id          String  @id @default(uuid())
+    firstName   String
+    lastName    String
+    email       String  @unique
+    phoneNumber String? @map("phone_number")
+    photo       String?
+    isVerified  Boolean @default(false)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    roles         Roles[]            @default([CLIENT])
+    oauthAccounts UserOAuthAccount[]
+
+    providerProfile    ProviderProfile?
+    appointments       Appointment[]
+    providerScheduleId String?
+
+    @@map("users")
+}
+
+model UserOAuthAccount {
+    userId            String @map("user_id")
+    provider          String
+    providerAccountId String @unique() @map("provider_account_id")
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([providerAccountId, provider])
+    @@map("user_oauth_accounts")
+}
+
+enum Roles {
+    ADMIN
+    PROVIDER
+    CLIENT
+
+    @@map("roles")
+}
+
+// ---------------------------------------------------------------------------
+// --------------------------------- SERVICE ---------------------------------
+// ---------------------------------------------------------------------------
+
+model Service {
+    id                String  @id @default(uuid())
+    name              String
+    description       String?
+    durationInMinutes Int     @map("duration_in_minutes")
+    isActive          Boolean @default(true) @map("is_active")
+    slug              String  @unique @default(uuid())
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    providerServices ProviderService[]
+    appointments     Appointment[]
+
+    @@map("services")
+}
+
+// ---------------------------------------------------------------------------
+// --------------------------------- PROVIDER --------------------------------
+// ---------------------------------------------------------------------------
+
+model ProviderProfile {
+    id          String  @id @default(uuid())
+    description String?
+    slug        String  @unique @default(uuid())
+
+    userId           String             @unique @map("user_id")
+    user             User               @relation(fields: [userId], references: [id])
+    services         ProviderService[]
+    providerSchedule ProviderSchedule[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("provider_profiles")
+}
+
+model ProviderService {
+    id String @id @default(uuid())
+
+    providerId String          @map("provider_id")
+    provider   ProviderProfile @relation(fields: [providerId], references: [id])
+    serviceId  String          @map("service_id")
+    service    Service         @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+    @@unique([providerId, serviceId])
+    @@map("provider_services")
+}
+
+// ---------------------------------------------------------------------------
+// ----------------------------- PROVIDER SCHEDULE ---------------------------
+// ---------------------------------------------------------------------------
+
+model ProviderSchedule {
+    id                       String                         @id @default(uuid())
+    providerProfileId        String                         @unique @map("provider_profile_id")
+    providerProfile          ProviderProfile                @relation(fields: [providerProfileId], references: [id], onDelete: Cascade)
+    availabilities           ProviderScheduleAvailability[]
+    appointments             Appointment[]
+    providerScheduleOverride ProviderScheduleOverride[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("provider_schedules")
+}
+
+model ProviderScheduleAvailability {
+    id                 String            @id @default(uuid())
+    providerScheduleId String            @map("provider_schedule_id")
+    providerSchedule   ProviderSchedule  @relation(fields: [providerScheduleId], references: [id], onDelete: Cascade)
+    startTime          String            @map("start_time")
+    endTime            String            @map("end_time")
+    dayOfWeek          ScheduleDayOfWeek @map("day_of_week")
+    weekType           WeekType          @default(ALL) @map("week_type")
+
+    @@index([providerScheduleId], name: "provider_schedule_id_index")
+    @@map("provider_schedule_availabilities")
+}
+
+model ProviderScheduleOverride {
+    id          String   @id @default(uuid())
+    date        DateTime // The date of the override
+    isAvailable Boolean  @default(false) @map("is_available")
+    reason      String? // Optional reason for the override (e.g., "Holiday", "Vacation")
+    startTime   String?  @map("start_time") // Optional specific time override
+    endTime     String?  @map("end_time") // Optional specific time override
+
+    providerScheduleId String           @map("provider_schedule_id")
+    providerSchedule   ProviderSchedule @relation(fields: [providerScheduleId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@index([providerScheduleId, date]) // Index for efficient querying
+    @@map("provider_schedule_overrides")
+}
+
+enum ScheduleDayOfWeek {
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+    SATURDAY
+    SUNDAY
+
+    @@map("schedule_day_of_week")
+}
+
+enum WeekType {
+    ALL
+    ODD
+    EVEN
+
+    @@map("week_type")
+}
+
+// ---------------------------------------------------------------------------
+// -------------------------------- APPOINTMENT ------------------------------
+// ---------------------------------------------------------------------------
+
+model Appointment {
+    id String @id @default(uuid())
+
+    userId String? @map("user_id")
+    user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+    contactName  String? @map("contact_name")
+    contactEmail String? @map("contact_email")
+    contactPhone String? @map("contact_phone")
+
+    providerScheduleId String           @map("provider_schedule_id")
+    providerSchedule   ProviderSchedule @relation(fields: [providerScheduleId], references: [id])
+
+    serviceId String  @map("service_id")
+    service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+    startTime DateTime @map("start_time")
+    endTime   DateTime @map("end_time")
+
+    status    AppointmentStatus @default(PENDING)
+    createdAt DateTime          @default(now()) @map("created_at")
+    updatedAt DateTime          @updatedAt @map("updated_at")
+
+    @@unique([providerScheduleId, startTime], map: "provider_schedule_id_start_time_unique")
+    @@map("appointments")
+}
+
+enum AppointmentStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+    COMPLETED
+
+    @@map("appointment_status")
+}
