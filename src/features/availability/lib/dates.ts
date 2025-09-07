@@ -28,3 +28,11 @@ export function getWeekTypeLabel(weekType: WeekType | null) {
       ? "Nieparzyste"
       : "Parzyste";
 }
+
+export function availabilityTimeToInt(time: string) {
+  return parseFloat(time.replace(":", "."));
+}
+
+export function availabilityTimeToString(time: number) {
+  return time.toFixed(2).padStart(5, "0").replace(".", ":");
+}

@@ -7,7 +7,7 @@ export function mapRoles(roles: $Enums.Roles[]) {
         case "ADMIN":
           return "Administrator";
         case "PROVIDER":
-          return "Serwisant";
+          return "Specjalista";
         case "CLIENT":
           return "Klient";
         default:

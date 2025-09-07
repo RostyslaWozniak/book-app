@@ -6,8 +6,15 @@ import {
   createProviderAvailabilitySchema,
   updateProviderAvailabilitySchema,
 } from "@/features/availability/lib/validation/provider-schedule-availability";
-import { availabilityTimeToInt } from "@/lib/utils/date";
 import { TRPCError } from "@trpc/server";
+import {
+  availabilityTimeToInt,
+  availabilityTimeToString,
+} from "@/features/availability/lib/dates";
+import {
+  calculteAvailabilityTimeToCurrentTimezone,
+  calculteAvailabilityTimeToUTCTimezone,
+} from "@/lib/utils/date/timezone";
 
 export const availabilityRouter = createTRPCRouter({
   getOwnAvailabilities: providerProcedure.query(async ({ ctx }) => {
@@ -18,7 +25,15 @@ export const availabilityRouter = createTRPCRouter({
         },
       },
     });
-    return availabilities;
+    return availabilities.map((a) => ({
+      ...a,
+      startTime: availabilityTimeToString(
+        calculteAvailabilityTimeToCurrentTimezone(a.startTime),
+      ),
+      endTime: availabilityTimeToString(
+        calculteAvailabilityTimeToCurrentTimezone(a.endTime),
+      ),
+    }));
   }),
 
   create: providerProcedure
@@ -28,8 +43,12 @@ export const availabilityRouter = createTRPCRouter({
         ctx.provider.id,
       );
 
-      const strartTimeNumber = availabilityTimeToInt(input.startTime);
-      const endTimeNumber = availabilityTimeToInt(input.endTime);
+      const strartTimeNumber = calculteAvailabilityTimeToUTCTimezone(
+        input.startTime,
+      );
+      const endTimeNumber = calculteAvailabilityTimeToUTCTimezone(
+        input.endTime,
+      );
 
       if (strartTimeNumber >= endTimeNumber) {
         throw new TRPCError({
@@ -69,7 +88,10 @@ export const availabilityRouter = createTRPCRouter({
 
       await ctx.db.providerScheduleAvailability.create({
         data: {
-          ...input,
+          startTime: availabilityTimeToString(strartTimeNumber),
+          endTime: availabilityTimeToString(endTimeNumber),
+          dayOfWeek: input.dayOfWeek,
+          weekType: input.weekType,
           providerScheduleId,
         },
       });

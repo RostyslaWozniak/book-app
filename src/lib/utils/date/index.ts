@@ -3,10 +3,6 @@ import { WeekType, type $Enums } from "@prisma/client";
 export * from "./date-formatter";
 export * from "./time-formatter";
 
-export function availabilityTimeToInt(time: string) {
-  return parseFloat(time.replace(":", "."));
-}
-
 export function getStartDate(date?: Date | null) {
   const now = new Date();
   const today = new Date(now.setUTCSeconds(0, 0));
