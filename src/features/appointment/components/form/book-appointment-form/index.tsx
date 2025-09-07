@@ -24,7 +24,6 @@ import { TimeSelectDialog } from "./time-select-dialog";
 import { Input } from "@/components/shadcn-ui/input";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import { appointmentsData } from "prisma/data/appointments";
 import { cn } from "@/lib/utils/cn";
 
 export function BookAppointmentForm({
@@ -53,7 +52,7 @@ export function BookAppointmentForm({
     api.public.appointment.book.useMutation({
       onSuccess: () => {
         toast.success("Wizutę zarezerwowano");
-        // router.push("/");
+        router.push("/");
       },
       onError: ({ message }) => {
         toast.error(message);
@@ -61,21 +60,6 @@ export function BookAppointmentForm({
     });
   async function onSubmit(values: AppointmentFormSchema) {
     bookAppointment({ ...values, serviceId });
-    // appointmentsData.map(
-    //   ({ contactEmail, contactName, contactPhone, startTime, notes }) => {
-    //     console.log(values);
-    // bookAppointment({
-    //   contactEmail,
-    //   contactName,
-    //   contactPhone: contactPhone ?? undefined,
-    //   startTime: new Date(
-    //     new Date().setUTCDate(new Date(startTime).getTime()),
-    //   ),
-    //   notes: notes ?? undefined,
-    //   serviceId,
-    // });
-    // },
-    // );
   }
 
   const watchDate = form.watch("date");
