@@ -81,7 +81,7 @@ export function AvailabilityForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-        <div className="grid gap-4 md:grid-cols-2 [&div>div>button]:w-full">
+        <div className="grid grid-cols-2 gap-4 [&div>div>button]:w-full">
           <FormField
             control={form.control}
             name="dayOfWeek"

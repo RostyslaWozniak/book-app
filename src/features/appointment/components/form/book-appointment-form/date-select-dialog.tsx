@@ -72,7 +72,7 @@ export function DateSelectDialog({
         title="Wybierz dzień"
         isOpen={isDateDialogOpen}
         setIsOpen={setIsDateDialogOpen}
-        contentClassName="overflow-hidden"
+        contentClassName="overflow-hidden pb-12"
       >
         {isLoading && <FormLoader />}
         <Calendar

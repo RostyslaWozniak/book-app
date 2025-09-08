@@ -66,7 +66,7 @@ export function TimeSelectDialog({
         title="Wybierz godzinę"
         isOpen={isTimeDialogOpen}
         setIsOpen={setIsTimeDialogOpen}
-        contentClassName="overflow-hidden min-h-100"
+        contentClassName="overflow-hidden min-h-100 pb-12"
       >
         {isLoading && <FormLoader />}
         <div className="mb-2">
