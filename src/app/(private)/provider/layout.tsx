@@ -1,11 +1,11 @@
 import { type Metadata } from "next";
 import { providerSidebarNavData } from "@/features/provider/data/sidebar-nav";
-import { SidebarTrigger } from "@/components/shadcn-ui/sidebar";
 import { Sidebar } from "@/components/sidebar";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AdminProviderToggle } from "@/features/admin/components/admin-provider-toggle";
 import { SidebarProviderWrapper } from "@/components/providers/sidebar-provider-wrapper";
+import { ProviderMobileNav } from "@/components/mobile-nav/provider-mobile-nav";
 
 export const metadata: Metadata = {
   title: "System dla rezerwacji wizyt online - Book App",
@@ -22,16 +22,13 @@ export default function ProviderLayout({
         <Sidebar label="Panel specjalisty" items={providerSidebarNavData}>
           <AdminProviderToggle linkPath="admin" />
         </Sidebar>
-        <SidebarTrigger
-          className="fixed right-1 bottom-1 z-50 md:hidden"
-          variant="outline"
-        />
-        <main className="w-full">
+        <main className="mb-20 w-full">
           <SectionWrapper paddingBlock="none" className="mt-4">
             <Breadcrumb startWith="/provider" />
           </SectionWrapper>
           {children}
         </main>
+        <ProviderMobileNav />
       </SidebarProviderWrapper>
     </>
   );

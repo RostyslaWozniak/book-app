@@ -4,5 +4,11 @@ import { api } from "@/trpc/server";
 export async function ProviderProfileHeader() {
   const providerProfile = await api.provider.profile.getProfile();
 
-  return <ProfileHeader profile={providerProfile} provider={providerProfile} />;
+  return (
+    <ProfileHeader
+      profile={providerProfile}
+      provider={providerProfile}
+      showLogoutButton
+    />
+  );
 }

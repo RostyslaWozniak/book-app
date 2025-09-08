@@ -1,7 +1,7 @@
 import { Button } from "@/components/shadcn-ui/button";
 import { Skeleton } from "@/components/shadcn-ui/skeleton";
 import { getCurrentUser } from "@/features/auth/current-user";
-import { ToggleLeftIcon } from "lucide-react";
+import { ToggleLeftIcon, ToggleRightIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -28,9 +28,12 @@ async function AdminProviderToggleButton({
   const isAdminPath = linkPath === "admin";
   return (
     <Link href={`/${linkPath}`}>
-      <Button className="w-full overflow-hidden">
-        <ToggleLeftIcon />
-        <span className="hidden @[100px]:block">{`Panel ${isAdminPath ? "Administratora" : "Specjalisty"}`}</span>
+      <Button
+        className="w-full overflow-hidden"
+        variant={isAdminPath ? "default" : "secondary"}
+      >
+        {isAdminPath ? <ToggleRightIcon /> : <ToggleLeftIcon />}
+        <span className="hidden w-40 @[100px]:block">{`Panel ${isAdminPath ? "Administratora" : "Specjalisty"}`}</span>
       </Button>
     </Link>
   );

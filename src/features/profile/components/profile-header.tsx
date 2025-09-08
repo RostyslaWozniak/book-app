@@ -1,7 +1,7 @@
+import { LogoutDialog } from "@/components/log-out-dialog";
 import { Button } from "@/components/shadcn-ui/button";
 import { Avatar } from "@/components/ui/avatar";
-import { LogOutButton } from "@/features/auth/components/log-out-button";
-import { EditIcon, LogOutIcon } from "lucide-react";
+import { EditIcon } from "lucide-react";
 import Link from "next/link";
 
 export function ProfileHeader({
@@ -24,7 +24,7 @@ export function ProfileHeader({
 }) {
   const fullName = `${profile.firstName} ${profile.lastName}`;
   return (
-    <div className="relative flex flex-col items-center rounded-lg border p-4 md:flex-row md:gap-x-12 md:p-6">
+    <div className="_@container relative flex flex-col items-center rounded-lg border p-4 md:flex-row md:gap-x-12 md:p-6">
       <div className="relative mb-2 md:mb-0">
         <Avatar
           photo={profile.photo ?? ""}
@@ -52,12 +52,9 @@ export function ProfileHeader({
       </Link>
 
       {showLogoutButton && (
-        <LogOutButton
-          className="absolute top-2 right-2 gap-x-1 text-xs sm:gap-x-2 sm:text-sm"
-          size="sm"
-        >
-          Wyloguj <LogOutIcon />
-        </LogOutButton>
+        <div className="absolute top-2 right-2">
+          <LogoutDialog />
+        </div>
       )}
     </div>
   );

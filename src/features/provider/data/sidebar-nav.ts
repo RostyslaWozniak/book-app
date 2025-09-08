@@ -1,5 +1,3 @@
-"use client";
-
 import { CalendarIcon, ClockIcon, HomeIcon, PawPrintIcon } from "lucide-react";
 
 export const providerSidebarNavData = [

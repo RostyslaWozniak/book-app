@@ -10,28 +10,28 @@ import { MobileNav } from "./mobile-nav";
 const nav = [
   {
     icon: HomeIcon,
-    label: "Home",
-    href: "/",
+    title: "Home",
+    url: "/",
   },
   {
     icon: UsersRoundIcon,
-    label: "O nas",
-    href: "/o-nas",
+    title: "O nas",
+    url: "/o-nas",
   },
   {
     icon: WrenchIcon,
-    label: "Usługi",
-    href: "/uslugi",
+    title: "Usługi",
+    url: "/uslugi",
   },
   {
     icon: PhoneIcon,
-    label: "Kontakt",
-    href: "/kontakt",
+    title: "Kontakt",
+    url: "/kontakt",
   },
   {
     icon: PlusIcon,
-    label: "Umów",
-    href: "/uslugi/nowa",
+    title: "Umów",
+    url: "/uslugi/nowa",
   },
 ];
 

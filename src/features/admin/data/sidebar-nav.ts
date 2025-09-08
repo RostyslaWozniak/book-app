@@ -1,5 +1,3 @@
-"use client";
-
 import { HomeIcon, UserCogIcon, UsersIcon, WrenchIcon } from "lucide-react";
 
 export const adminSidebarNavData = [
