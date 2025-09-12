@@ -19,7 +19,7 @@ const PATH_MAPPINT = {
   appointments: "Wizyty",
   availability: "Dostępność",
   clients: "Klienci",
-  employees: "Pracownicy",
+  employees: "Specjalisci",
   login: "Logowanie",
   new: "Nowa",
   profile: "Profil",

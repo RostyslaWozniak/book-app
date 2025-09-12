@@ -25,7 +25,7 @@ export class UserService {
       },
     });
   }
-  public static async getEmployeeByProviderSlug(providerSlug: string) {
+  public static async getProviderBySlug(providerSlug: string) {
     return await db.providerProfile.findUnique({
       where: {
         slug: providerSlug,

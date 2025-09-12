@@ -18,7 +18,7 @@ import {
   MultiSelectValue,
 } from "@/components/shadcn-ui/multi-select";
 
-import { $Enums } from "@prisma/client";
+import { $Enums, type User } from "@prisma/client";
 
 import { LoadingButton } from "@/components/ui/loading-button";
 import { api } from "@/trpc/react";
@@ -30,14 +30,13 @@ import {
   type RolesSelectSchema,
 } from "../../lib/validation/roles-schema";
 
+type UserType = Pick<User, "id" | "roles">;
+
 export function RolesSelectForm({
   user,
   setIsEditOpen,
 }: {
-  user: {
-    id: string;
-    roles: $Enums.Roles[];
-  };
+  user: UserType;
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const router = useRouter();

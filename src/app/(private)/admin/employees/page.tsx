@@ -16,7 +16,7 @@ export default async function AdminEmployeesPage({
     <>
       <SectionWrapper paddingBlock="xs">
         <MaxWidthWrapper>
-          <H1 className="mb-3 md:mb-6">Pracownicy</H1>
+          <H1 className="mb-3 md:mb-6">Specjalisci</H1>
           <Suspense fallback={<TableSkeleton />}>
             <EmployeesTable searchParamsRoles={roles} />
           </Suspense>

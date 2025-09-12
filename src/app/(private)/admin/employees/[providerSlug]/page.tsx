@@ -11,7 +11,7 @@ export default async function AdminEmployeePage({
 }) {
   const { providerSlug } = await params;
 
-  const provider = await api.admin.user.getEmployeeByProviderSlug(providerSlug);
+  const provider = await api.admin.provider.getProfileBySlug(providerSlug);
 
   if (!provider) return notFound();
   return (
