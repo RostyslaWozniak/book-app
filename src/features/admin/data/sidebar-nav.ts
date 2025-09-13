@@ -19,7 +19,7 @@ export const adminSidebarNavData = [
   },
   {
     url: "/admin/employees",
-    title: "Pracownicy",
+    title: "Specjalisci",
     icon: UserCogIcon,
   },
 ];

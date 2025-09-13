@@ -6,13 +6,13 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
 } from "@/components/shadcn-ui/sidebar";
 import { type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { LogoutDialog } from "./log-out-dialog";
+import { LogoutDialog } from "../log-out-dialog";
+import { SidebarItem } from "./sidebar-item";
 
 type SidebarProps = {
   children: React.ReactNode;
@@ -21,8 +21,6 @@ type SidebarProps = {
 };
 
 export function Sidebar({ children, label, items }: SidebarProps) {
-  const pathname = "usePathname();";
-
   return (
     <ShadcnUISidebar
       variant="floating"
@@ -39,12 +37,12 @@ export function Sidebar({ children, label, items }: SidebarProps) {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                  <SidebarItem url={item.url}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
-                  </SidebarMenuButton>
+                  </SidebarItem>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
