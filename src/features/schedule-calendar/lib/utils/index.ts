@@ -1,25 +1,14 @@
-import {
-  $Enums,
-  type Appointment,
-  type ProviderScheduleAvailability,
-} from "@prisma/client";
+import { $Enums } from "@prisma/client";
 import { setWeek } from "date-fns";
 
-import {
-  format,
-  startOfWeek,
-  addDays,
-  // isSameDay,
-  getHours,
-  getMinutes,
-} from "date-fns";
-import type { WeekDayInfo, AppointmentPosition } from "../../types/appointment";
+import { format, startOfWeek, addDays, getHours, getMinutes } from "date-fns";
+import type {
+  WeekDayInfo,
+  AppointmentPosition,
+  AppointmentType,
+} from "../../types/appointment";
 import { pl } from "date-fns/locale";
-
-type AvailabilityType = Pick<
-  ProviderScheduleAvailability,
-  "startTime" | "endTime" | "dayOfWeek" | "weekType"
->;
+import type { AvailabilityType } from "../../types/availability";
 
 /**
  * Generates an array of week days starting from the given date
@@ -29,7 +18,7 @@ export function generateWeekDays(
   availabilities: AvailabilityType[],
 ): WeekDayInfo[] {
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 }); // Start from Monday
-
+  // console.log({ currentDate });
   return Array.from({ length: 7 }).map((_, index) => {
     const date = addDays(weekStart, index);
     const currentAvailabilities = availabilities.filter(
@@ -43,7 +32,7 @@ export function generateWeekDays(
       isToday: isSameDay(date, new Date()),
       startTimes: currentAvailabilities.map((a) => a.startTime),
       endTimes: currentAvailabilities.map((a) => a.endTime),
-      weekType: currentAvailabilities.map((a) => a.weekType)[0] ?? "ALL",
+      weekType: currentAvailabilities.map((a) => a.weekType)[0] ?? null,
     };
   });
 }
@@ -60,8 +49,8 @@ export function generateTimeSlots(
       Array.from({ length: visibleHours }).map((_, hourIndex) => {
         const hour = startHour + hourIndex;
 
-        if (hour >= 24) {
-          return "24:00";
+        if (hour >= 23) {
+          return "23:00";
         }
 
         return `${hour.toString().padStart(2, "0")}:00`;
@@ -74,10 +63,10 @@ export function generateTimeSlots(
  * Filters appointments that fall within the current week view
  */
 export function filterAppointmentsForWeek(
-  appointments: Appointment[] | undefined,
+  appointments: AppointmentType[] | undefined,
   weekDays: WeekDayInfo[],
   statuses: $Enums.AppointmentStatus[],
-): Appointment[] {
+): AppointmentType[] {
   if (!appointments) return [];
   return appointments.filter((appointment) => {
     const appointmentDate = new Date(appointment.startTime);
@@ -178,60 +167,13 @@ export const isSameDay = (date1: Date, date2: Date) => {
   return date1.toDateString() === date2.toDateString();
 };
 
-export const getWeekDates = (date: Date) => {
-  const week = [];
-  const startOfWeek = new Date(date);
-  startOfWeek.setDate(date.getDate() - date.getDay());
-
-  for (let i = 0; i < 7; i++) {
-    const day = new Date(startOfWeek);
-    day.setDate(startOfWeek.getDate() + i);
-    week.push(day);
-  }
-
-  return week;
-};
-
-export const getMonthDates = (date: Date) => {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const startDate = new Date(firstDay);
-  startDate.setDate(firstDay.getDate() - firstDay.getDay());
-
-  const dates = [];
-  const current = new Date(startDate);
-
-  while (current <= lastDay || current.getDay() !== 0) {
-    dates.push(new Date(current));
-    current.setDate(current.getDate() + 1);
-  }
-
-  return dates;
-};
-
-export const getAppointmentsForDate = (
-  appointments: Appointment[],
-  date: Date,
-) => {
-  return appointments.filter((appointment) =>
-    isSameDay(appointment.startTime, date),
-  );
-};
-
-export const getAppointmentsForWeek = (
-  appointments: Appointment[],
-  date: Date,
-) => {
-  const weekDates = getWeekDates(date);
-  return appointments.filter((appointment) =>
-    weekDates.some((weekDate) => isSameDay(appointment.startTime, weekDate)),
-  );
-};
-
 export function getDateFromWeekAndYear(week: number, year: number): Date {
-  const date = new Date(year, 0, 4); // Jan 4, to ensure week 1
-  const withWeekSet = setWeek(date, week);
-  return new Date(startOfWeek(withWeekSet).setHours(2));
+  // Use Jan 4 (always in the first ISO week of a year)
+  const jan4 = new Date(year, 0, 4);
+
+  // Set to desired week
+  const withWeekSet = setWeek(jan4, week, { weekStartsOn: 1 });
+
+  // Return Monday of that week
+  return startOfWeek(withWeekSet, { weekStartsOn: 1 });
 }

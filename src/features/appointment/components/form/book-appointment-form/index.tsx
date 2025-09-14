@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { BookAppointmentFormContext } from "./context";
+import { BookAppointmentFormContext } from "../../../context/book-appointment-form-context";
 import { useForm } from "react-hook-form";
 import {
   appointmentFromSchema,

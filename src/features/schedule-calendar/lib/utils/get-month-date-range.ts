@@ -13,24 +13,29 @@
 // }
 
 export function getWeekDateRange(
-  year: string = new Date().getUTCFullYear().toString(),
+  year: string = new Date().getFullYear().toString(),
   week: string = getCurrentISOWeek().toString(),
 ) {
-  const yearNumber = parseInt(year);
-  const weekNumber = parseInt(week);
+  const yearNumber = parseInt(year, 10);
+  const weekNumber = parseInt(week, 10);
 
+  // ISO weeks always include Jan 4
   const jan4 = new Date(yearNumber, 0, 4);
-  const jan4Day = jan4.getUTCDay() ?? 7; // Sunday = 0, so we treat it as 7
 
+  // Get the Monday of the first ISO week
+  const dayOfWeek = jan4.getDay() || 7; // Sunday=0 → 7
   const firstMonday = new Date(jan4);
-  firstMonday.setDate(jan4.getUTCDay() - jan4Day + 1);
+  firstMonday.setDate(jan4.getDate() - (dayOfWeek - 1));
 
+  // Start of target week
   const start = new Date(firstMonday);
-  start.setUTCDate(firstMonday.getUTCDay() + (weekNumber - 1) * 7);
+  start.setDate(firstMonday.getDate() + (weekNumber - 1) * 7);
+  start.setHours(0, 0, 0, 0);
 
+  // End of target week (Sunday)
   const end = new Date(start);
-  end.setUTCDate(start.getUTCDay() + 6);
-  end.setUTCHours(23, 59, 59, 999);
+  end.setDate(start.getDate() + 6);
+  end.setHours(23, 59, 59, 999);
 
   return { start, end };
 }

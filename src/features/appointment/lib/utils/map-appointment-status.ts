@@ -5,26 +5,24 @@ export function mapAppointmentStatus(status: $Enums.AppointmentStatus) {
     case "COMPLETED":
       return {
         color: {
-          default: "bg-completed text-primary-foreground font-semibold ",
-          secondary:
-            "bg-completed/5 text-completed font-semibold border-completed",
+          default: "bg-completed ",
+          secondary: "bg-completed/5 backdrop-blur-md border-completed",
         },
         label: "Zakończona",
       };
     case "PENDING":
       return {
         color: {
-          default: "bg-pending text-primary-foreground font-semibold",
-          secondary: "bg-pending/5 text-pending font-semibold border-pending",
+          default: "bg-pending",
+          secondary: "bg-pending/5 backdrop-blur-md border-pending ",
         },
         label: "Oczekuje",
       };
     case "CONFIRMED":
       return {
         color: {
-          default: "bg-confirmed text-primary-foreground font-semibold",
-          secondary:
-            "bg-confirmed/5 text-confirmed font-semibold border-confirmed",
+          default: "bg-confirmed",
+          secondary: "bg-confirmed/5 backdrop-blur-md border-confirmed",
         },
 
         label: "Potwierdzona",
@@ -32,9 +30,8 @@ export function mapAppointmentStatus(status: $Enums.AppointmentStatus) {
     case "CANCELLED":
       return {
         color: {
-          default: "bg-cancelled text-primary-foreground font-semibold",
-          secondary:
-            "bg-cancelled/5 text-cancelled font-semibold border-cancelled",
+          default: "bg-cancelled",
+          secondary: "bg-cancelled/5 backdrop-blur-md   border-cancelled",
         },
         label: "Anulowana",
       };

@@ -1,8 +1,6 @@
 import { EmptyResult } from "@/components/ui/empty-result";
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { SectionHeader } from "@/components/ui/section-header";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { H1 } from "@/components/ui/typography";
 import { ScheduleCalendar } from "@/features/schedule-calendar";
 import { getWeekDateRange } from "@/features/schedule-calendar/lib/utils/get-month-date-range";
 import { api } from "@/trpc/server";
@@ -37,7 +35,6 @@ export default async function AdminSchedulePage({
     <>
       <SectionWrapper paddingBlock="xs">
         <MaxWidthWrapper>
-          <SectionHeader heading={H1} title="Twój grafik" />
           {availabilities.length > 0 ? (
             <ScheduleCalendar
               availabilities={availabilities}

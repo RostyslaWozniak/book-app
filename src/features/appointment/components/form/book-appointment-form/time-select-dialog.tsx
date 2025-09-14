@@ -1,6 +1,6 @@
 import { Button } from "@/components/shadcn-ui/button";
 import { DialogWrapper } from "@/components/ui/dialog-wrapper";
-import { useBookAppointmentFormContext } from "./context";
+import { useBookAppointmentFormContext } from "../../../context/book-appointment-form-context";
 import type { ControllerRenderProps } from "react-hook-form";
 import { dateToTimeString, getStartDate } from "@/lib/utils/date";
 import { api } from "@/trpc/react";

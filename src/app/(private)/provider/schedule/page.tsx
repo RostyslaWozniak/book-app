@@ -1,16 +1,32 @@
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { SectionHeader } from "@/components/ui/section-header";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { H1 } from "@/components/ui/typography";
-import { AppointmentCalendar } from "@/features/schedule-calendar";
+import { ScheduleCalendar } from "@/features/schedule-calendar";
+import { getWeekDateRange } from "@/features/schedule-calendar/lib/utils/get-month-date-range";
+import { api } from "@/trpc/server";
 
-export default function ProviderSchedulePage() {
+export default async function ProviderSchedulePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ year: string; week: string }>;
+}) {
+  const { year, week } = await searchParams;
+
+  const { start: weekStartDate, end: weekEndDate } = getWeekDateRange(
+    year,
+    week,
+  );
+
+  const availabilities = await api.provider.availability.getOwnAvailabilities();
+
   return (
     <>
       <SectionWrapper paddingBlock="xs">
         <MaxWidthWrapper>
-          <SectionHeader heading={H1} title="Twój grafik" />
-          {/* <AppointmentCalendar /> */}
+          <ScheduleCalendar
+            availabilities={availabilities}
+            weekStartDate={weekStartDate}
+            weekEndDate={weekEndDate}
+          />
         </MaxWidthWrapper>
       </SectionWrapper>
     </>

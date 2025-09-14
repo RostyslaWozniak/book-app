@@ -2,7 +2,7 @@ import { Button } from "@/components/shadcn-ui/button";
 import { Calendar } from "@/components/shadcn-ui/calendar";
 import { DialogWrapper } from "@/components/ui/dialog-wrapper";
 import { api } from "@/trpc/react";
-import { useBookAppointmentFormContext } from "./context";
+import { useBookAppointmentFormContext } from "../../../context/book-appointment-form-context";
 import type { ControllerRenderProps } from "react-hook-form";
 import { dateToString, isSameDay } from "@/lib/utils/date";
 import { getStartDate } from "@/lib/utils/date";

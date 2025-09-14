@@ -3,23 +3,28 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/shadcn-ui/button";
 import { cn } from "@/lib/utils";
-import type { ReactNode } from "react";
+import { useScheduleCalendarContext } from "../context/schedule-calendar-context";
+import { getISOWeeksInYear } from "date-fns";
 
-type WeekSelectionProps = {
-  children: ReactNode;
-  isCurrentWeek: boolean;
-  navigateToNextWeek: () => void;
-  navigateToPreviousWeek: () => void;
-  navigateToToday: () => void;
-};
+export function WeekSelection() {
+  const { week, todayWeek, year, todayYear, setWeek, setYear } =
+    useScheduleCalendarContext();
+  const isCurrentWeek = week === todayWeek && year === todayYear;
 
-export function WeekSelection({
-  children,
-  isCurrentWeek,
-  navigateToNextWeek,
-  navigateToPreviousWeek,
-  navigateToToday,
-}: WeekSelectionProps) {
+  // Navigation handlers
+  const navigateToToday = async () => {
+    await setWeek(todayWeek);
+    await setYear(todayYear);
+  };
+  const navigateToPreviousWeek = async () => {
+    await setWeek(week - 1 === 0 ? getISOWeeksInYear(year - 1) : week - 1);
+    await setYear(week - 1 === 0 ? year - 1 : year);
+  };
+  const navigateToNextWeek = async () => {
+    await setWeek(week + 1 === getISOWeeksInYear(year) + 1 ? 1 : week + 1);
+    await setYear(week + 1 === getISOWeeksInYear(year) + 1 ? year + 1 : year);
+  };
+
   return (
     <div className="flex items-center justify-center gap-4">
       <Button
@@ -39,7 +44,7 @@ export function WeekSelection({
             "text-primary": isCurrentWeek,
           })}
         >
-          {children}
+          Tydz. {week}
         </div>
 
         <Button variant="ghost" size="icon" onClick={navigateToNextWeek}>

@@ -1,29 +1,15 @@
-import type { $Enums } from "@prisma/client";
+import type { $Enums, Appointment } from "@prisma/client";
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string | null;
-};
-
-export type AppointmentType = {
-  startTime: Date;
-  endTime: Date;
-  id: string;
-  user: User | null;
-  contactName: string | null;
-  contactEmail: string | null;
-  contactPhone: string | null;
-  status: $Enums.AppointmentStatus;
-  createdAt: Date;
-  service: {
-    id: string;
-    name: string;
-    description: string | null;
-    durationInMinutes: number;
-  };
-};
+export type AppointmentType = Pick<
+  Appointment,
+  | "id"
+  | "startTime"
+  | "endTime"
+  | "status"
+  | "contactName"
+  | "contactEmail"
+  | "createdAt"
+>;
 
 export type WeekDayInfo = {
   name: string;
@@ -32,7 +18,7 @@ export type WeekDayInfo = {
   isToday: boolean;
   startTimes: string[];
   endTimes: string[];
-  weekType: $Enums.WeekType;
+  weekType: $Enums.WeekType | null;
 };
 
 export type AppointmentPosition = {

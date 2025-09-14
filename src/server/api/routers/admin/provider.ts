@@ -65,6 +65,8 @@ export const adminProviderRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      console.log(input);
+
       const providerSchedule = await ctx.db.providerSchedule.findFirst({
         where: {
           providerProfileId: input.providerId,
@@ -102,8 +104,6 @@ export const adminProviderRouter = createTRPCRouter({
           },
         },
       });
-
-      console.log("APPOINTMENTS: ", appointments);
 
       return appointments;
     }),

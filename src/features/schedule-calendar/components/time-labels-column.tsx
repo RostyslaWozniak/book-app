@@ -1,10 +1,8 @@
-export function TimeLabelsColumn({
-  timeSlots,
-  cellSize,
-}: {
-  timeSlots: string[];
-  cellSize: number;
-}) {
+import { useScheduleCalendarContext } from "../context/schedule-calendar-context";
+
+export function TimeLabelsColumn() {
+  const { timeSlots, cellSize } = useScheduleCalendarContext();
+
   return (
     <div className="text-muted-foreground">
       {timeSlots.map((timeLabel, index) => (

@@ -5,37 +5,14 @@ import {
   generateTimeSlots,
   isSameDay,
 } from "../lib/utils";
-import type { WeekDayInfo } from "../types/appointment";
 import { mapAppointmentStatus } from "@/features/appointment/lib/utils/map-appointment-status";
-import type { Appointment } from "@prisma/client";
 import { AppointmentDialog } from "./appointment-dialog";
+import { useScheduleCalendarContext } from "../context/schedule-calendar-context";
+import { getWeekType } from "@/lib/utils/date";
 
-type AppintmentType = Pick<
-  Appointment,
-  | "id"
-  | "startTime"
-  | "endTime"
-  | "status"
-  | "contactName"
-  | "contactEmail"
-  | "createdAt"
->;
-
-type DayColumnsProps = {
-  weekDays: WeekDayInfo[];
-  timeSlots: string[];
-  visibleAppointments: AppintmentType[];
-  cellSize: number;
-  dayStartHour: number;
-};
-
-export function DayColumns({
-  weekDays,
-  timeSlots,
-  visibleAppointments,
-  cellSize,
-  dayStartHour,
-}: DayColumnsProps) {
+export function DayColumns() {
+  const { timeSlots, cellSize, startHour, weekDays, visibleAppointments } =
+    useScheduleCalendarContext();
   return (
     <>
       {weekDays.map((day, dayIndex) => {
@@ -55,14 +32,17 @@ export function DayColumns({
           slots.push(...result);
         });
 
+        const weekType = getWeekType(day.date);
+        const isDayOf = day.weekType !== weekType && day.weekType !== "ALL";
+
         return (
           <div key={dayIndex} className={cn("relative border-l")}>
             {/* Time Grid Cells */}
-            {timeSlots.map((timeSlot, timeIndex) => (
+            {timeSlots.map((_, timeIndex) => (
               <div
                 key={timeIndex}
-                className={cn("bg-background border-b", {
-                  "bg-muted/50": !slots.includes(timeSlot),
+                className={cn("border-b", {
+                  "bg-destructive/5": isDayOf,
                 })}
                 style={{ height: `${cellSize}px` }}
               />
@@ -78,7 +58,7 @@ export function DayColumns({
                   new Date(appointment.startTime),
                   new Date(appointment.endTime),
                   cellSize,
-                  dayStartHour,
+                  startHour,
                 );
                 const { color } = mapAppointmentStatus(appointment.status);
                 return (
@@ -86,8 +66,8 @@ export function DayColumns({
                     <div
                       key={index}
                       className={cn(
-                        "absolute cursor-pointer overflow-hidden rounded-[8px] rounded-l-none border-[1px] border-l-8 pl-2 text-xs font-bold shadow-md transition-transform duration-200 ease-in-out hover:z-20 hover:min-h-10 hover:scale-[1.03] hover:shadow-lg",
-                        color.default,
+                        "absolute cursor-pointer overflow-hidden rounded-[8px] rounded-l-none border-[1px] border-l-6 pl-2 text-xs font-bold shadow-md transition-transform duration-200 ease-in-out hover:z-20 hover:min-h-10 hover:scale-[1.03] hover:shadow-lg",
+                        color.secondary,
                       )}
                       style={{
                         ...positionStyle,
