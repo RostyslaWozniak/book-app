@@ -45,7 +45,7 @@ export function EditProviderProfileForm({
   const { mutate: updateProfile, isPending } =
     api.provider.profile.update.useMutation({
       onSuccess: () => {
-        router.push("/provider");
+        router.push("/provider/profile");
       },
       onError: ({ message }) => {
         toast.error(message);
@@ -59,7 +59,7 @@ export function EditProviderProfileForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="@container max-w-2xl space-y-8"
+        className="@container max-w-4xl space-y-8"
       >
         <div className="grid items-start gap-4 @min-xl:grid-cols-2">
           <FormField
@@ -157,7 +157,7 @@ export function EditProviderProfileForm({
           disabled={!form.formState.isDirty}
           className="w-full sm:ml-auto sm:w-auto"
         >
-          Zapisz
+          Zapisz zmiany
         </LoadingButton>
       </form>
     </Form>
