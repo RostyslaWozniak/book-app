@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { HomeIcon } from "lucide-react";
 import { unslugify } from "@/lib/utils/slugify";
+import { uuidRegex } from "@/lib/utils/regex";
 
 const PATH_MAPPINT = {
   admin: "Panel Administratora",
@@ -58,7 +59,10 @@ export function Breadcrumb({
     pathSegments = pathname.split("/").filter((segment) => segment !== "");
   }
 
-  const crumbs = pathSegments.map((segment) => unslugify(segment));
+  const crumbs = pathSegments.map((segment) => ({
+    url: segment,
+    label: unslugify(segment),
+  }));
 
   return (
     <div className="relative">
@@ -85,9 +89,28 @@ export function Breadcrumb({
           </BreadcrumbItem>
 
           {crumbs.map((crumb, index) => {
-            currentLink += `/${crumb}`;
+            currentLink += `/${crumb.url}`;
             const mappedLabel =
-              pathMapping?.[crumb] ?? crumb.replaceAll("-", " ");
+              pathMapping?.[crumb.label] ?? crumb.label ?? crumb.url;
+
+            if (uuidRegex.test(crumb.url))
+              return (
+                <Fragment key={index}>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem key={index}>
+                    <BreadcrumbLink asChild>
+                      <Link
+                        href={currentLink}
+                        className="capitalize"
+                        aria-label={`Przejdź do strony ${mappedLabel}`}
+                      >
+                        ...
+                      </Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                </Fragment>
+              );
+
             return (
               <Fragment key={index}>
                 <BreadcrumbSeparator />
