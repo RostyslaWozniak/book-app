@@ -5,10 +5,6 @@ export async function ProviderProfileHeader() {
   const providerProfile = await api.provider.profile.getProfile();
 
   return (
-    <ProfileHeader
-      profile={providerProfile}
-      provider={providerProfile}
-      showLogoutButton
-    />
+    <ProfileHeader role="PROVIDER" user={providerProfile} showLogoutButton />
   );
 }

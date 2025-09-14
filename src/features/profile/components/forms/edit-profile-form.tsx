@@ -1,5 +1,6 @@
 "use client";
 
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -11,49 +12,31 @@ import {
   FormMessage,
 } from "@/components/shadcn-ui/form";
 import { Input } from "@/components/shadcn-ui/input";
-import { Textarea } from "@/components/shadcn-ui/textarea";
+import { phoneNumberValidation } from "@/lib/validation-common";
 import { LoadingButton } from "@/components/ui/loading-button";
-import { useRouter, useSearchParams } from "next/navigation";
-import type { ProviderProfile } from "@/features/profile/types/provider-profile.type";
-import {
-  providerProfileSchema,
-  type ProviderProfileSchema,
-} from "../../lib/validation/provider-profile-schema";
-import { api } from "@/trpc/react";
-import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
+import type { ClientProfile } from "../../types/client-profile.type";
 
-export function EditProviderProfileForm({
-  profile,
-}: {
-  profile: ProviderProfile;
-}) {
-  const router = useRouter();
+const formSchema = z.object({
+  fistName: z.string().min(2).max(50),
+  lastName: z.string().min(2).max(50),
+  phoneNumber: phoneNumberValidation,
+});
+export function EditProfileForm({ profile }: { profile: ClientProfile }) {
   const searchParams = useSearchParams();
   const phoneSeachParams = searchParams.get("phoneNumber");
 
-  const form = useForm<ProviderProfileSchema>({
-    resolver: zodResolver(providerProfileSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       fistName: profile.firstName,
       lastName: profile.lastName,
       phoneNumber: profile.phoneNumber ?? "",
-      slug: profile.slug,
-      description: profile.description ?? undefined,
     },
   });
 
-  const { mutate: updateProfile, isPending } =
-    api.provider.profile.update.useMutation({
-      onSuccess: () => {
-        router.push("/provider");
-      },
-      onError: ({ message }) => {
-        toast.error(message);
-      },
-    });
-
-  function onSubmit(values: ProviderProfileSchema) {
-    updateProfile(values);
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
   }
   return (
     <Form {...form}>
@@ -120,39 +103,9 @@ export function EditProviderProfileForm({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="slug"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Url</FormLabel>
-                <FormControl>
-                  <Input placeholder="jan-kowalski" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem className="@min-xl:col-span-2">
-                <FormLabel>Opis</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="..."
-                    className="min-h-50 resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
         <LoadingButton
-          loading={isPending}
+          loading={false}
           type="submit"
           disabled={!form.formState.isDirty}
           className="w-full sm:ml-auto sm:w-auto"
