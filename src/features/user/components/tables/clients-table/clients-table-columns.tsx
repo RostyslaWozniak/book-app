@@ -2,7 +2,7 @@
 
 import { type ColumnDef } from "@tanstack/react-table";
 import { SettingsIcon } from "lucide-react";
-import { ClientsTableSetings } from "../users-table-settings";
+import { UserTableSetings } from "../users-table-settings";
 import type { User } from "@prisma/client";
 import { mapRoles } from "../../../lib/map-roles";
 import { Avatar } from "@/components/ui/avatar";
@@ -42,6 +42,6 @@ export const clientsTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "settings",
     header: () => <SettingsIcon />,
-    cell: ({ row }) => <ClientsTableSetings user={row.original} />,
+    cell: ({ row }) => <UserTableSetings role="CLIENT" user={row.original} />,
   },
 ];

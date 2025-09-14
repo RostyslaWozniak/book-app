@@ -2,7 +2,7 @@
 
 import { type ColumnDef } from "@tanstack/react-table";
 import { SettingsIcon } from "lucide-react";
-import { ClientsTableSetings } from "../users-table-settings";
+import { UserTableSetings } from "../users-table-settings";
 import { mapRoles } from "../../../lib/map-roles";
 import { Avatar } from "@/components/ui/avatar";
 import { RoleSelection } from "./employees-roles-selection";
@@ -45,6 +45,6 @@ export const employeesTableColumns: ColumnDef<
   {
     accessorKey: "settings",
     header: () => <SettingsIcon />,
-    cell: ({ row }) => <ClientsTableSetings user={row.original} />,
+    cell: ({ row }) => <UserTableSetings role="PROVIDER" user={row.original} />,
   },
 ];

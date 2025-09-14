@@ -10,15 +10,25 @@ import type { User } from "@prisma/client";
 import { RolesSelectForm } from "../forms/roles-select-form";
 import Link from "next/link";
 
-type UserType = Pick<
-  User,
-  "id" | "firstName" | "lastName" | "email" | "roles"
-> & {
+type UserType = Pick<User, "id" | "firstName" | "lastName" | "email" | "roles">;
+type ClientType = UserType;
+
+type ProviderType = UserType & {
   slug: string;
   description: string | null;
 };
 
-export function ClientsTableSetings({ user }: { user: UserType }) {
+type UserTableSetingsProps =
+  | {
+      role: "PROVIDER";
+      user: ProviderType;
+    }
+  | {
+      role: "CLIENT";
+      user: ClientType;
+    };
+
+export function UserTableSetings({ user, role }: UserTableSetingsProps) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   return (
     <>
@@ -33,7 +43,7 @@ export function ClientsTableSetings({ user }: { user: UserType }) {
       </DialogWrapper>
 
       <DropdownWrapper vertical className="w-52">
-        {user.slug && (
+        {role === "PROVIDER" && (
           <>
             <DropdownMenuItem className="group relative">
               <IconMenu
