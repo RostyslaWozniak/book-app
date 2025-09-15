@@ -1,6 +1,6 @@
 import z from "zod";
-import { providerProcedure } from "../../procedures/provider-procedure";
-import { createTRPCRouter } from "../../trpc";
+import { providerProcedure } from "../../../procedures/provider-procedure";
+import { createTRPCRouter } from "../../../trpc";
 import { db } from "@/server/db";
 import {
   createProviderAvailabilitySchema,
@@ -15,8 +15,11 @@ import {
   calculteAvailabilityTimeToCurrentTimezone,
   calculteAvailabilityTimeToUTCTimezone,
 } from "@/lib/utils/date/timezone";
+import { providerAvailabilityOverrideRouter } from "./override";
 
 export const availabilityRouter = createTRPCRouter({
+  override: providerAvailabilityOverrideRouter,
+
   getOwnAvailabilities: providerProcedure.query(async ({ ctx }) => {
     const availabilities = await ctx.db.providerScheduleAvailability.findMany({
       where: {
