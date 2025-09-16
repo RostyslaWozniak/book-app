@@ -1,12 +1,12 @@
+import { groupHolidayRanges } from "@/features/availability/lib/dates";
 import {
-  serverCreateProviderScheduleOverride,
+  clientCreateProviderScheduleOverride,
   updateProviderScheduleOverride,
 } from "@/features/availability/lib/validation/provider-schedule-override";
 import { providerProcedure } from "@/server/api/procedures/provider-procedure";
 import { createTRPCRouter } from "@/server/api/trpc";
 import type { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { format } from "date-fns";
 import z from "zod";
 
 export const providerAvailabilityOverrideRouter = createTRPCRouter({
@@ -29,41 +29,60 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
       return providerScheduleOverrides;
     }),
 
-  create: providerProcedure
-    .input(serverCreateProviderScheduleOverride)
-    .mutation(async ({ ctx, input }) => {
-      const providerScheduleId = await getProviderScheduleOrThrow(
-        ctx.db,
-        ctx.provider.id,
-      );
+  getHolidays: providerProcedure.query(async ({ ctx }) => {
+    const providerScheduleId = await getProviderScheduleOrThrow(
+      ctx.db,
+      ctx.provider.id,
+    );
 
-      const existingOverrides = await ctx.db.providerScheduleOverride.findMany({
+    const providerScheduleOverrides =
+      await ctx.db.providerScheduleOverride.findMany({
         where: {
           providerScheduleId,
-          date: {
-            in: input.dates,
-          },
+          isAvailable: false,
         },
       });
-      if (existingOverrides.length > 0) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: `Overrides already exist for dates: ${existingOverrides
-            .map((o) => format(o.date, "PPP"))
-            .join(", ")}`,
-        });
-      }
 
-      await ctx.db.providerScheduleOverride.createMany({
-        data: input.dates.map((date) => ({
-          providerScheduleId,
-          date,
-          isAvailable: input.isAvailable,
-          reason: input.reason,
-          startTime: input.startTime,
-          endTime: input.endTime,
-        })),
-      });
+    return groupHolidayRanges(providerScheduleOverrides);
+  }),
+
+  create: providerProcedure
+    .input(clientCreateProviderScheduleOverride)
+    .mutation(async ({ ctx, input }) => {
+      console.log(input);
+
+      // const providerScheduleId = await getProviderScheduleOrThrow(
+      //   ctx.db,
+      //   ctx.provider.id,
+      // );
+
+      // const existingOverrides = await ctx.db.providerScheduleOverride.findMany({
+      //   where: {
+      //     providerScheduleId,
+      //     date: {
+      //       in: input.dates,
+      //     },
+      //   },
+      // });
+      // if (existingOverrides.length > 0) {
+      //   throw new TRPCError({
+      //     code: "CONFLICT",
+      //     message: `Overrides already exist for dates: ${existingOverrides
+      //       .map((o) => format(o.date, "PPP"))
+      //       .join(", ")}`,
+      //   });
+      // }
+
+      // await ctx.db.providerScheduleOverride.createMany({
+      //   data: input.dates.map((date) => ({
+      //     providerScheduleId,
+      //     date,
+      //     isAvailable: input.isAvailable,
+      //     reason: input.reason,
+      //     startTime: input.startTime,
+      //     endTime: input.endTime,
+      //   })),
+      // });
     }),
 
   update: providerProcedure

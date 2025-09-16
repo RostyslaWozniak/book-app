@@ -1,23 +1,32 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import type { ProviderScheduleOverride } from "@prisma/client";
+import { MoreHorizontal, SettingsIcon } from "lucide-react";
+import { dateFormatter } from "@/lib/utils/date";
+import type { HolidayRange } from "../../types/override.type";
 
-export const holidaysTableColumns: ColumnDef<ProviderScheduleOverride>[] = [
+export const holidaysTableColumns: ColumnDef<HolidayRange>[] = [
   {
     accessorKey: "date",
     header: "Data",
-    cell: ({ row }) => row.original.date.toString(),
+    cell: ({ row }) => (
+      <div>
+        {dateFormatter.format(row.original.startDate)} -{" "}
+        {dateFormatter.format(row.original.endDate)}
+      </div>
+    ),
   },
   {
     accessorKey: "reason",
     header: "Przyczyna",
-    cell: ({ row }) => <p>{row.original.reason}</p>,
+    cell: ({ row }) =>
+      row.original.reason ? <p>{row.original.reason}</p> : <p> - - - </p>,
   },
 
-  //   {
-  //     accessorKey: "settings",
-  //     header: () => <SettingsIcon />,
-  //     cell: ({ row }) => <UserTableSetings role="CLIENT" user={row.original} />,
-  //   },
+  {
+    accessorKey: "settings",
+    header: () => <SettingsIcon />,
+    cell: ({ row }) => <MoreHorizontal />,
+    // cell: ({ row }) => <UserTableSetings role="CLIENT" user={row.original} />,
+  },
 ];
