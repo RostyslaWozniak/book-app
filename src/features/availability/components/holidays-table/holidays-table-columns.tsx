@@ -1,9 +1,10 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, SettingsIcon } from "lucide-react";
+import { SettingsIcon } from "lucide-react";
 import { dateFormatter } from "@/lib/utils/date";
 import type { HolidayRange } from "../../types/override.type";
+import { HolidaysTableSettings } from "./holidays-table-settings";
 
 export const holidaysTableColumns: ColumnDef<HolidayRange>[] = [
   {
@@ -26,7 +27,6 @@ export const holidaysTableColumns: ColumnDef<HolidayRange>[] = [
   {
     accessorKey: "settings",
     header: () => <SettingsIcon />,
-    cell: ({ row }) => <MoreHorizontal />,
-    // cell: ({ row }) => <UserTableSetings role="CLIENT" user={row.original} />,
+    cell: ({ row }) => <HolidaysTableSettings data={row.original} />,
   },
 ];

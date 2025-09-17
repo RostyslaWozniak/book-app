@@ -10,10 +10,7 @@ export type CreateProviderScheduleHolidays = z.infer<
   typeof createProviderScheduleHolidays
 >;
 
-export const updateProviderScheduleHolidays =
-  createProviderScheduleHolidays.extend({
-    overrideId: z.string().uuid(),
-  });
+export const updateProviderScheduleHolidays = createProviderScheduleHolidays;
 
 export type UpdateProviderScheduleHolidays = z.infer<
   typeof updateProviderScheduleHolidays

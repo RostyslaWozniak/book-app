@@ -88,22 +88,45 @@ export const providerHolidaysRouter = createTRPCRouter({
         ctx.provider.id,
       );
 
-      // await ctx.db.providerScheduleOverride.updateMany({
-      //   where: {
-      //     date: {
-      //       in: dates
-      //     },
-      //     reason: input.reason,
-      //     providerScheduleId,
+      await ctx.db.providerScheduleOverride.deleteMany({
+        where: {
+          date: {
+            in: dates,
+          },
+          providerScheduleId,
+        },
+      });
 
-      //   }
-      // })
+      await ctx.db.providerScheduleOverride.createMany({
+        data: dates.map((date) => ({
+          providerScheduleId,
+          date,
+          isAvailable: false,
+          reason: input.reason,
+        })),
+      });
     }),
 
   delete: providerProcedure
-    .input(z.object({ overrideId: z.string().uuid() }))
+    .input(z.object({ startDate: z.date(), endDate: z.date() }))
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
+      const dates = eachDayOfInterval({
+        start: new Date(input.startDate.setUTCHours(2, 0, 0, 0)),
+        end: new Date(input.endDate.setUTCHours(2, 0, 0, 0)),
+      });
+      const providerScheduleId = await getProviderScheduleOrThrow(
+        ctx.db,
+        ctx.provider.id,
+      );
+
+      await ctx.db.providerScheduleOverride.deleteMany({
+        where: {
+          date: {
+            in: dates,
+          },
+          providerScheduleId,
+        },
+      });
     }),
 });
 

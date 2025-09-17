@@ -153,7 +153,7 @@ model ProviderScheduleOverride {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
-    @@index([providerScheduleId, date]) // Index for efficient querying
+    @@unique([providerScheduleId, date])
     @@map("provider_schedule_overrides")
 }
 
