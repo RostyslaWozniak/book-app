@@ -1,5 +1,5 @@
 import { api } from "@/trpc/react";
-import type { HolidayRange } from "../../../types/override.type";
+import type { TimeOffRange } from "../../../types/override.type";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { LoadingButton } from "@/components/ui/loading-button";
@@ -8,7 +8,7 @@ export function DeleteTimeOff({
   timeOff,
   closeDialog,
 }: {
-  timeOff: HolidayRange;
+  timeOff: TimeOffRange;
   closeDialog: () => void;
 }) {
   const router = useRouter();

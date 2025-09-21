@@ -2,7 +2,6 @@ import { AvailabilityProcessor } from "@/features/availability/lib/availability-
 import { getStartDate } from "@/lib/utils/date";
 import { publicProcedure } from "@/server/api/procedures/public-procedure";
 import { TRPCError } from "@trpc/server";
-import { lastDayOfMonth } from "date-fns";
 import z from "zod";
 
 export const getAvailableDays = publicProcedure
@@ -14,11 +13,17 @@ export const getAvailableDays = publicProcedure
     }),
   )
   .query(async ({ ctx, input }) => {
-    console.log(input);
-    // Get date range
     const startDate = getStartDate(input.startDate);
-    const endDate = lastDayOfMonth(startDate);
-
+    const endDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999,
+    );
+    console.log({ startDate, endDate });
     // Get service duration
     const existingService = await ctx.db.service.findUnique({
       where: { id: input.serviceId },
@@ -60,7 +65,7 @@ export const getAvailableDays = publicProcedure
                   where: {
                     date: {
                       gte: startDate,
-                      lte: endDate,
+                      lt: endDate,
                     },
                   },
                 },

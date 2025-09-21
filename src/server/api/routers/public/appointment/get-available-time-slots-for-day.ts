@@ -1,5 +1,6 @@
 import { getWeekDay, getWeekType, timeStringToDateUTC } from "@/lib/utils/date";
 import { publicProcedure } from "@/server/api/procedures/public-procedure";
+import type { $Enums } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import {
   addMinutes,
@@ -80,26 +81,109 @@ export const getAvailableTimeSlotsForDay = publicProcedure
     const end = timesInOrder.at(-1);
 
     if (start == null || end == null) return [];
-
-    const availabilities = await ctx.db.providerScheduleAvailability.findMany({
+    const overrides = await ctx.db.providerScheduleOverride.findMany({
       where: {
-        dayOfWeek: dayOfWeek,
-        weekType: {
-          in: [weekType, "ALL"],
+        date: {
+          gte: startOfTheDay,
+          lt: endOfTheDay,
         },
+        isAvailable: true,
+        startTime: { not: null },
+        endTime: { not: null },
         providerSchedule: {
           providerProfile: {
-            services: {
-              some: {
-                serviceId: service.id,
-              },
-            },
+            services: { some: { serviceId: service.id } },
           },
         },
       },
+      select: {
+        startTime: true,
+        endTime: true,
+        providerScheduleId: true,
+      },
     });
+    let availabilities: {
+      providerScheduleId: string;
+      startTime: string;
+      endTime: string;
+      dayOfWeek: $Enums.ScheduleDayOfWeek;
+      weekType: $Enums.WeekType;
+    }[] = [];
+    if (overrides.length > 0) {
+      // Use overrides if defined
+      availabilities = overrides.map((ov) => ({
+        providerScheduleId: ov.providerScheduleId,
+        startTime: ov.startTime!,
+        endTime: ov.endTime!,
+        dayOfWeek,
+        weekType,
+      }));
+    } else {
+      // Fallback to base weekly schedule
+      const providerAvailabilities =
+        await ctx.db.providerScheduleAvailability.findMany({
+          where: {
+            dayOfWeek,
+            weekType: { in: [weekType, "ALL"] },
+            providerSchedule: {
+              providerProfile: {
+                services: { some: { serviceId: service.id } },
+              },
+            },
+          },
+          select: {
+            startTime: true,
+            endTime: true,
+            providerScheduleId: true,
+          },
+        });
+      availabilities = providerAvailabilities.map((pav) => ({
+        providerScheduleId: pav.providerScheduleId,
+        startTime: pav.startTime,
+        endTime: pav.endTime,
+        dayOfWeek,
+        weekType,
+      }));
+    }
 
-    if (availabilities.length === 0) return [];
+    const additionalAvailabilities =
+      await ctx.db.providerScheduleAvailability.findMany({
+        where: {
+          dayOfWeek,
+          weekType: { in: [weekType, "ALL"] },
+          providerScheduleId: {
+            notIn: availabilities.map((a) => a.providerScheduleId),
+          },
+          providerSchedule: {
+            providerProfile: {
+              services: { some: { serviceId: service.id } },
+            },
+          },
+        },
+        select: {
+          startTime: true,
+          endTime: true,
+          providerScheduleId: true,
+        },
+      });
+
+    if (additionalAvailabilities.length > 0) {
+      additionalAvailabilities.forEach((a) => {
+        availabilities.push({
+          providerScheduleId: a.providerScheduleId,
+          startTime: a.startTime,
+          endTime: a.endTime,
+          dayOfWeek,
+          weekType,
+        });
+      });
+    }
+
+    console.log(availabilities);
+
+    if (availabilities.length === 0) {
+      return [];
+    }
 
     const appointments = await ctx.db.appointment.findMany({
       where: {

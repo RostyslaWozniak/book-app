@@ -1,11 +1,11 @@
 import { useState } from "react";
-import type { HolidayRange } from "../../../types/override.type";
+import type { TimeOffRange } from "../../../types/override.type";
 import { DialogWrapper } from "@/components/ui/dialog-wrapper";
 import { TrashIcon } from "lucide-react";
 import { DeleteTimeOff } from "./delete-time-off";
 import { Button } from "@/components/shadcn-ui/button";
 
-export function TimeOffTableSettings({ data }: { data: HolidayRange }) {
+export function TimeOffTableSettings({ data }: { data: TimeOffRange }) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   return (
     <>

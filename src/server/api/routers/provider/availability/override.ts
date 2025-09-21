@@ -1,4 +1,7 @@
-import { groupOverrideRanges } from "@/features/availability/lib/dates";
+import {
+  availabilityTimeToString,
+  groupOverrideRanges,
+} from "@/features/availability/lib/dates";
 import { createProviderScheduleOverride } from "@/features/availability/lib/validation/provider-schedule-override";
 import { ProviderScheduleService } from "@/features/provider/server/services";
 import { providerProcedure } from "@/server/api/procedures/provider-procedure";
@@ -7,6 +10,10 @@ import { TRPCError } from "@trpc/server";
 import { format } from "date-fns";
 import { eachDayOfInterval } from "@/lib/utils/date/each-day-of-interval";
 import z from "zod";
+import {
+  calculteAvailabilityTimeToCurrentTimezone,
+  calculteAvailabilityTimeToUTCTimezone,
+} from "@/lib/utils/date/timezone";
 
 export const providerAvailabilityOverrideRouter = createTRPCRouter({
   getAllOwn: providerProcedure.query(async ({ ctx }) => {
@@ -31,7 +38,15 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
         },
       });
 
-    return groupOverrideRanges(providerScheduleOverrides);
+    return groupOverrideRanges(providerScheduleOverrides).map((o) => ({
+      ...o,
+      startTime: availabilityTimeToString(
+        calculteAvailabilityTimeToCurrentTimezone(o.startTime),
+      ),
+      endTime: availabilityTimeToString(
+        calculteAvailabilityTimeToCurrentTimezone(o.endTime),
+      ),
+    }));
   }),
 
   create: providerProcedure
@@ -64,6 +79,19 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
             .join(", ")}`,
         });
       }
+      const strartTimeNumber = calculteAvailabilityTimeToUTCTimezone(
+        input.startTime,
+      );
+      const endTimeNumber = calculteAvailabilityTimeToUTCTimezone(
+        input.endTime,
+      );
+
+      if (strartTimeNumber >= endTimeNumber) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Strart pracy powinien być mniejszy od końca pracy",
+        });
+      }
 
       await ctx.db.providerScheduleOverride.createMany({
         data: dates.map((date) => ({
@@ -71,8 +99,8 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
           date,
           isAvailable: true,
           reason: input.reason,
-          startTime: input.startTime,
-          endTime: input.endTime,
+          startTime: availabilityTimeToString(strartTimeNumber),
+          endTime: availabilityTimeToString(endTimeNumber),
         })),
       });
     }),
