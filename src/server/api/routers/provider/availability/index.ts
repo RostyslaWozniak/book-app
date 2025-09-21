@@ -108,8 +108,12 @@ export const availabilityRouter = createTRPCRouter({
         ctx.provider.id,
       );
 
-      const strartTimeNumber = availabilityTimeToInt(input.startTime);
-      const endTimeNumber = availabilityTimeToInt(input.endTime);
+      const strartTimeNumber = calculteAvailabilityTimeToUTCTimezone(
+        input.startTime,
+      );
+      const endTimeNumber = calculteAvailabilityTimeToUTCTimezone(
+        input.endTime,
+      );
 
       if (strartTimeNumber >= endTimeNumber) {
         throw new TRPCError({
@@ -117,6 +121,7 @@ export const availabilityRouter = createTRPCRouter({
           message: "Strart pracy powinien być mniejszy od końca pracy",
         });
       }
+
       const availabilities = await db.providerScheduleAvailability.findMany({
         where: {
           id: {
@@ -155,7 +160,10 @@ export const availabilityRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          ...input,
+          startTime: availabilityTimeToString(strartTimeNumber),
+          endTime: availabilityTimeToString(endTimeNumber),
+          dayOfWeek: input.dayOfWeek,
+          weekType: input.weekType,
           providerScheduleId,
         },
       });
