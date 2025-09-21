@@ -1,19 +1,21 @@
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { H1 } from "@/components/ui/typography";
-import { HolidaysDialog } from "@/features/availability/components/holidays-dialog";
-import { HolidaysTable } from "@/features/availability/components/holidays-table";
+import {
+  TimeOffDialog,
+  TimeOffTable,
+} from "@/features/availability/components/time-off";
 
-export default function ProviderHolidaysPage() {
+export default function ProviderTimeOffPage() {
   return (
     <>
       <SectionWrapper>
         <MaxWidthWrapper>
           <div className="mb-6 flex items-center justify-between md:mb-12">
-            <H1>Urlop</H1>
-            <HolidaysDialog />
+            <H1>Dni wolne</H1>
+            <TimeOffDialog />
           </div>
-          <HolidaysTable />
+          <TimeOffTable />
         </MaxWidthWrapper>
       </SectionWrapper>
     </>

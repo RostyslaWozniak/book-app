@@ -1,16 +1,23 @@
 import { api } from "@/trpc/react";
-import type { HolidayRange } from "../types/override.type";
+import type { HolidayRange } from "../../../types/override.type";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { LoadingButton } from "@/components/ui/loading-button";
 
-export function DeleteHolidays({ holidays }: { holidays: HolidayRange }) {
+export function DeleteTimeOff({
+  timeOff,
+  closeDialog,
+}: {
+  timeOff: HolidayRange;
+  closeDialog: () => void;
+}) {
   const router = useRouter();
 
   const { mutate: deleteOverride, isPending: isDeleting } =
-    api.provider.availability.holiday.delete.useMutation({
+    api.provider.availability.timeOff.delete.useMutation({
       onSuccess: () => {
         toast.success("Time off deleted successfully");
+        closeDialog();
         router.refresh();
       },
       onError: ({ message }) => {
@@ -21,7 +28,7 @@ export function DeleteHolidays({ holidays }: { holidays: HolidayRange }) {
   return (
     <LoadingButton
       loading={isDeleting}
-      onClick={() => deleteOverride(holidays)}
+      onClick={() => deleteOverride(timeOff)}
       variant="destructive"
     >
       Usuń urlop

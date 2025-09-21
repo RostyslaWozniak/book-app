@@ -16,11 +16,11 @@ import {
   calculteAvailabilityTimeToUTCTimezone,
 } from "@/lib/utils/date/timezone";
 import { providerAvailabilityOverrideRouter } from "./override";
-import { providerHolidaysRouter } from "./holidays";
+import { providerTimeOffRouter } from "./time-off";
 
 export const availabilityRouter = createTRPCRouter({
   override: providerAvailabilityOverrideRouter,
-  holiday: providerHolidaysRouter,
+  timeOff: providerTimeOffRouter,
 
   getOwnAvailabilities: providerProcedure.query(async ({ ctx }) => {
     const availabilities = await ctx.db.providerScheduleAvailability.findMany({

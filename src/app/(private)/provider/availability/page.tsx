@@ -10,8 +10,8 @@ export default function ProviderAvailabilityPage() {
       <SectionWrapper paddingBlock="xs">
         <MaxWidthWrapper className="@container max-w-full">
           <div className="mb-4 ml-auto flex w-min gap-2">
-            <Link href="/provider/availability/holidays">
-              <Button variant="outline">Urlopy</Button>
+            <Link href="/provider/availability/time-off">
+              <Button variant="outline">Dni wolne</Button>
             </Link>
             <Link href="/provider/availability/overrides">
               <Button variant="outline">Zmiana godzin pracy</Button>

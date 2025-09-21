@@ -1,14 +1,14 @@
-import { groupOverrideRanges } from "@/features/availability/lib/dates";
-import { createProviderScheduleOverride } from "@/features/availability/lib/validation/provider-schedule-override";
+import { groupTimeOffRanges } from "@/features/availability/lib/dates";
+import { createProviderScheduleTimeOff } from "@/features/availability/lib/validation/provider-time-off";
 import { ProviderScheduleService } from "@/features/provider/server/services";
+import { eachDayOfInterval } from "@/lib/utils/date/each-day-of-interval";
 import { providerProcedure } from "@/server/api/procedures/provider-procedure";
 import { createTRPCRouter } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { format } from "date-fns";
-import { eachDayOfInterval } from "@/lib/utils/date/each-day-of-interval";
 import z from "zod";
 
-export const providerAvailabilityOverrideRouter = createTRPCRouter({
+export const providerTimeOffRouter = createTRPCRouter({
   getAllOwn: providerProcedure.query(async ({ ctx }) => {
     const providerSchedule =
       await ProviderScheduleService.getByProviderIdOrThrow({
@@ -19,25 +19,22 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
       await ctx.db.providerScheduleOverride.findMany({
         where: {
           providerScheduleId: providerSchedule.id,
-          isAvailable: true,
+          isAvailable: false,
         },
         select: {
           id: true,
           date: true,
           reason: true,
           isAvailable: true,
-          startTime: true,
-          endTime: true,
         },
       });
 
-    return groupOverrideRanges(providerScheduleOverrides);
+    return groupTimeOffRanges(providerScheduleOverrides);
   }),
 
   create: providerProcedure
-    .input(createProviderScheduleOverride)
+    .input(createProviderScheduleTimeOff)
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       const dates = eachDayOfInterval({
         start: new Date(input.startDate.setUTCHours(2, 0, 0, 0)),
         end: new Date(input.endDate.setUTCHours(2, 0, 0, 0)),
@@ -59,7 +56,7 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
       if (existingOverrides.length > 0) {
         throw new TRPCError({
           code: "CONFLICT",
-          message: `Istnieją już nadpisania dla dat: ${existingOverrides
+          message: `Overrides already exist for dates: ${existingOverrides
             .map((o) => format(o.date, "PPP"))
             .join(", ")}`,
         });
@@ -69,10 +66,8 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
         data: dates.map((date) => ({
           providerScheduleId: providerSchedule.id,
           date,
-          isAvailable: true,
+          isAvailable: false,
           reason: input.reason,
-          startTime: input.startTime,
-          endTime: input.endTime,
         })),
       });
     }),
@@ -84,7 +79,6 @@ export const providerAvailabilityOverrideRouter = createTRPCRouter({
         start: new Date(input.startDate.setUTCHours(2, 0, 0, 0)),
         end: new Date(input.endDate.setUTCHours(2, 0, 0, 0)),
       });
-      console.log(dates);
       const providerSchedule =
         await ProviderScheduleService.getByProviderIdOrThrow({
           id: ctx.provider.id,

@@ -5,8 +5,13 @@ export type ProviderScheduleOverride = Pick<
   "id" | "date" | "startTime" | "endTime" | "isAvailable" | "reason"
 >;
 
-export type HolidayRange = {
+export type TimeOffRange = {
   startDate: Date;
   endDate: Date;
   reason: string | null;
+};
+
+export type OverrideRange = TimeOffRange & {
+  startTime: string;
+  endTime: string;
 };

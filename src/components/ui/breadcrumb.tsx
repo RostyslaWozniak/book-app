@@ -24,11 +24,13 @@ const PATH_MAPPINT = {
   employees: "Specjalisci",
   login: "Logowanie",
   new: "Nowa",
+  overrides: "Zmiana godzin pracy",
   profile: "Profil",
   provider: "Panel specjalisty",
   registration: "Rejestracja",
   services: "Usługi",
   schedule: "Grafik",
+  "time off": "Dni wolne",
 };
 
 export function Breadcrumb({

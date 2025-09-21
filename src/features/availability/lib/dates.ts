@@ -1,7 +1,8 @@
 import { WeekType, type ScheduleDayOfWeek } from "@prisma/client";
 import type {
-  HolidayRange,
+  OverrideRange,
   ProviderScheduleOverride,
+  TimeOffRange,
 } from "../types/override.type";
 
 export function formatDayOfWeek(day: ScheduleDayOfWeek) {
@@ -45,13 +46,10 @@ export function availabilityTimeToString(time: number) {
  * Groups sequential unavailable dates into ranges
  * Breaks when dates are not consecutive or reasons differ
  */
-export function groupHolidayRanges(
-  overrides: Pick<
-    ProviderScheduleOverride,
-    "id" | "date" | "isAvailable" | "reason"
-  >[],
-): HolidayRange[] {
-  const holidays = [...overrides].sort(
+export function groupTimeOffRanges(
+  timeOffs: Pick<ProviderScheduleOverride, "id" | "date" | "reason">[],
+): TimeOffRange[] {
+  const holidays = [...timeOffs].sort(
     (a, b) => a.date.getTime() - b.date.getTime(),
   );
 
@@ -66,8 +64,8 @@ export function groupHolidayRanges(
     throw new Error("Error: groupHolidayRanges");
   }
 
-  const result: HolidayRange[] = [];
-  let currentRange: HolidayRange = {
+  const result: TimeOffRange[] = [];
+  let currentRange: TimeOffRange = {
     startDate: first.date,
     endDate: first.date,
     reason: first.reason,
@@ -87,6 +85,59 @@ export function groupHolidayRanges(
         startDate: curr.date,
         endDate: curr.date,
         reason: curr.reason,
+      };
+    }
+  }
+
+  result.push(currentRange);
+  return result;
+}
+export function groupOverrideRanges(
+  overrides: Pick<
+    ProviderScheduleOverride,
+    "id" | "date" | "startTime" | "endTime" | "reason"
+  >[],
+): OverrideRange[] {
+  const holidays = [...overrides].sort(
+    (a, b) => a.date.getTime() - b.date.getTime(),
+  );
+
+  if (holidays.length === 0) {
+    return [];
+  }
+
+  // Destructure safely after guard
+  const [first, ...rest] = holidays;
+
+  if (!first) {
+    throw new Error("Error: groupHolidayRanges");
+  }
+
+  const result: OverrideRange[] = [];
+  let currentRange: OverrideRange = {
+    startDate: first.date,
+    endDate: first.date,
+    reason: first.reason,
+    startTime: first.startTime!,
+    endTime: first.endTime!,
+  };
+
+  for (const curr of rest) {
+    const prev = currentRange.endDate;
+    const oneDayMs = 1000 * 60 * 60 * 24;
+
+    const isConsecutive = curr.date.getTime() - prev.getTime() === oneDayMs;
+    const sameReason = curr.reason === currentRange.reason;
+    if (isConsecutive && sameReason) {
+      currentRange = { ...currentRange, endDate: curr.date };
+    } else {
+      result.push(currentRange);
+      currentRange = {
+        startDate: curr.date,
+        endDate: curr.date,
+        reason: curr.reason,
+        startTime: curr.startTime!,
+        endTime: curr.endTime!,
       };
     }
   }

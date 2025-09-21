@@ -48,7 +48,9 @@ export const DialogWrapper = ({
     <>
       {isMobile ? (
         <Drawer open={isOpen} onOpenChange={setIsOpen} disablePreventScroll>
-          <DrawerContent className={cn("px-2.5", contentClassName)}>
+          <DrawerContent
+            className={cn("overflow-y-scroll px-2.5", contentClassName)}
+          >
             <DrawerHeader className="text-left">
               <DrawerTitle className="text-xl">{title}</DrawerTitle>
               <DrawerDescription className="text-base">
@@ -59,7 +61,6 @@ export const DialogWrapper = ({
             <DrawerFooter className="pt-2">
               {closeButton && (
                 <DrawerClose
-                  // asChild
                   className={cn(
                     "w-full self-end justify-self-end",
                     buttonVariants(closeButtonVariant),
