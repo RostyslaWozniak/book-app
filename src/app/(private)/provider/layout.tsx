@@ -6,6 +6,7 @@ import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AdminProviderToggle } from "@/features/admin/components/admin-provider-toggle";
 import { SidebarProviderWrapper } from "@/components/providers/sidebar-provider-wrapper";
 import { ProviderMobileNav } from "@/components/mobile-nav/provider-mobile-nav";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const metadata: Metadata = {
   title: "System dla rezerwacji wizyt online - Book App",
@@ -20,6 +21,7 @@ export default function ProviderLayout({
     <>
       <SidebarProviderWrapper>
         <Sidebar label="Panel specjalisty" items={providerSidebarNavData}>
+          <ThemeToggle />
           <AdminProviderToggle linkPath="admin" />
         </Sidebar>
         <main className="mb-20 w-full">

@@ -1,4 +1,4 @@
-import { CalendarIcon, ClockIcon, HomeIcon, PawPrintIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, HomeIcon, WrenchIcon } from "lucide-react";
 
 export const providerSidebarNavData = [
   {
@@ -14,7 +14,7 @@ export const providerSidebarNavData = [
   {
     url: "/provider/services",
     title: "Usługi",
-    icon: PawPrintIcon,
+    icon: WrenchIcon,
   },
   {
     url: "/provider/availability",

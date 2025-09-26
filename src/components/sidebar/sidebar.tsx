@@ -27,8 +27,8 @@ export function Sidebar({ children, label, items }: SidebarProps) {
       collapsible="icon"
       className="@container"
     >
-      <div className="hidden justify-center md:flex @[100px]:justify-end">
-        <SidebarTrigger />
+      <div className="relative top-1 mb-1 hidden justify-center md:flex @[100px]:right-1 @[100px]:justify-end">
+        <SidebarTrigger className="hover:bg-transparent dark:hover:bg-transparent" />
       </div>
       <SidebarContent className="scrollbar-hide">
         <SidebarGroup>

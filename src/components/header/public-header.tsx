@@ -1,6 +1,7 @@
 import { Button } from "../shadcn-ui/button";
 import { AccessibleLink } from "../ui/accesible-link";
 import { MaxWidthWrapper } from "../ui/max-width-wrapper";
+import { ThemeToggle } from "../ui/theme-toggle";
 const navigation = [
   { label: "Główna", href: "/", ariaLabel: "Przejdź na główną" },
   { label: "O nas", href: "/o-nas", ariaLabel: "Przejdź do strony o nas" },
@@ -26,13 +27,15 @@ export function PublicHeader() {
             ))}
           </ul>
         </nav>
-        <div className="flex gap-x-2">
+        <div className="flex items-center gap-x-2">
           <AccessibleLink href="/uslugi/nowa" aria-label="Przejdź do wizyt">
             <Button>Umów wizytę</Button>
           </AccessibleLink>
           <AccessibleLink href="/login" aria-label="Przejdź do logowania">
             <Button>Zaloguj się</Button>
           </AccessibleLink>
+
+          <ThemeToggle />
         </div>
       </MaxWidthWrapper>
     </header>

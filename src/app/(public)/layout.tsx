@@ -29,8 +29,8 @@ export default function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pl" className={`${geist.variable}`}>
-      <body className="dark flex min-h-screen flex-col">
+    <html lang="pl" className={`${geist.variable}`} suppressHydrationWarning>
+      <body className="flex min-h-screen flex-col">
         <Providers>
           <PublicHeader />
           <main className="flex-grow">
