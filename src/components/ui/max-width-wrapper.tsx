@@ -16,7 +16,7 @@ const maxWidthWraperVariants = cva("mx-auto px-4 md:px-8", {
   },
 });
 
-type MaxWidthWrapperProps = React.HTMLAttributes<HTMLDivElement> &
+export type MaxWidthWrapperProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof maxWidthWraperVariants>;
 
 export function MaxWidthWrapper({

@@ -23,14 +23,16 @@ export function EmptyResult({
   return (
     <div
       className={cn(
-        "text-muted-foreground bg-muted flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-4 text-center",
+        "bg-muted flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-4 text-center",
         className,
       )}
     >
       <Icon className={cn("mb-4 h-12 w-12", iconClassName)} />
       <p className={cn(titleClassName, "text-lg font-medium")}>{title}</p>
       {description && (
-        <p className="max-w-md text-center text-sm">{description}</p>
+        <p className="text-muted-foreground max-w-md text-center text-sm">
+          {description}
+        </p>
       )}
       {actionButton}
     </div>

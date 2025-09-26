@@ -1,4 +1,5 @@
 import { appointmentActionSchema } from "@/features/appointment/lib/validation/book-appointment-form-schema";
+import { getCurrentUser } from "@/features/auth/current-user";
 import { getWeekDay, getWeekType } from "@/lib/utils/date";
 import { publicProcedure } from "@/server/api/procedures/public-procedure";
 import { TRPCError } from "@trpc/server";
@@ -14,6 +15,8 @@ export const bookAppointment = publicProcedure
         message: "Wizyta nie moze byc wczesniejsza niz dzisiaj",
       });
     }
+
+    const user = await getCurrentUser();
 
     await ctx.db.$transaction(async (tx) => {
       const service = await tx.service.findUnique({
@@ -113,6 +116,7 @@ export const bookAppointment = publicProcedure
             providerScheduleId: filteredSchedles[0]!.id,
             startTime,
             endTime,
+            userId: user?.id ?? null,
           },
         })
         .catch(() => {

@@ -10,7 +10,6 @@ const adminRoutes = "/admin";
 const authRoutes = ["/login", "/registration", "/email-verification"];
 
 export async function middleware(request: NextRequest) {
-  console.log("RUN_MIDDLEWARE");
   const response = (await middlewareAuth(request)) ?? NextResponse.next();
   await updateUserSessionExpiration({
     set: (key, value, options) => {
@@ -70,7 +69,6 @@ async function middlewareAuth(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match specific protected paths AND authentication paths
     "/login",
     "/register",
     "/email-verification",
