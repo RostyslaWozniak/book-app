@@ -7,19 +7,18 @@ export const profileSidebarNavData = [
     title: "Główna",
     icon: HomeIcon,
   },
-
   {
     url: "/profile",
     title: "Profil",
     icon: UserIcon,
   },
   {
-    url: "/profile/wizyty",
+    url: "/profile/visits",
     title: "Wizyty",
     icon: CalendarIcon,
   },
   {
-    url: "/profile/uslugi",
+    url: "/profile/services",
     title: "Umów",
     icon: PlusIcon,
   },

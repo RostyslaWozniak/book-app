@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function ProviderLayout({
+export default function ProfileLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
