@@ -1,6 +1,15 @@
-import type { RouterOutputs } from "@/trpc/react";
+import type {
+  Appointment,
+  ProviderProfile,
+  Service,
+  User,
+} from "@prisma/client";
 
 export type ProfileAppointemnt = Pick<
-  RouterOutputs["profile"]["appointment"]["getAllOwn"][number],
-  "id" | "startTime" | "endTime" | "status" | "service" | "provider"
->;
+  Appointment,
+  "id" | "startTime" | "endTime" | "status"
+> & {
+  service: Pick<Service, "id" | "slug" | "name">;
+  provider: Pick<ProviderProfile, "slug"> &
+    Pick<User, "firstName" | "lastName" | "phoneNumber" | "photo">;
+};

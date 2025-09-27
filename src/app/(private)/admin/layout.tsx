@@ -24,12 +24,12 @@ export default function ProviderLayout({
           <ThemeToggle />
           <AdminProviderToggle linkPath="provider" />
         </Sidebar>
-        <main className="w-full">
+        <div className="w-full">
           <SectionWrapper paddingBlock="none" className="mt-4">
             <Breadcrumb startWith="/admin" />
           </SectionWrapper>
           {children}
-        </main>
+        </div>
         <AdminMobileNav />
       </SidebarProviderWrapper>
     </>

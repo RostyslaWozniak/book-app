@@ -22,6 +22,7 @@ const PATH_MAPPINT = {
   clients: "Klienci",
   edit: "Edytowanie",
   employees: "Specjalisci",
+  finished: "Zakończone",
   login: "Logowanie",
   new: "Nowa",
   overrides: "Zmiana godzin pracy",
@@ -31,6 +32,8 @@ const PATH_MAPPINT = {
   services: "Usługi",
   schedule: "Grafik",
   "time off": "Dni wolne",
+  visits: "Wizyty",
+  active: "Zaplanowane",
 };
 
 export function Breadcrumb({

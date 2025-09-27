@@ -1,7 +1,7 @@
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { H1 } from "@/components/ui/typography";
-import { ServicesList } from "@/features/service/components/services-list";
+import { ServiceCard } from "@/features/service/components/service-card";
 import { api } from "@/trpc/server";
 import { Suspense } from "react";
 
@@ -24,5 +24,16 @@ export default function AppointmentsPage() {
 async function ServicesListSuspense() {
   const services = await api.public.service.getAll({});
 
-  return <ServicesList services={services} />;
+  return (
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {services.map((service) => (
+        <ServiceCard
+          key={service.id}
+          service={service}
+          showDescription
+          bookButton
+        />
+      ))}
+    </div>
+  );
 }

@@ -3,7 +3,6 @@
 import { Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/shadcn-ui/badge";
 import { format } from "date-fns";
-// import { CancelAppointmentButton } from "./cancel-appointment-button";
 import { pl } from "date-fns/locale";
 
 import { mapAppointmentStatus } from "../lib/utils/map-appointment-status";
@@ -19,6 +18,7 @@ import Link from "next/link";
 import type { ProfileAppointemnt } from "../types/appointment.type";
 import { dateToTimeString } from "@/lib/utils/date";
 import { Button } from "@/components/shadcn-ui/button";
+import { Avatar } from "@/components/ui/avatar";
 
 export function AppointmentCard({
   appointment,
@@ -33,21 +33,30 @@ export function AppointmentCard({
     (appointment.status === "PENDING" || appointment.status === "CONFIRMED");
   return (
     <Card>
-      <CardContent className="flex">
+      <CardContent className="flex px-4 md:px-6">
         <div className="flex-grow">
           <CardTitle className="flex-grow text-xl">
             {appointment.service.name}
           </CardTitle>
-          <div className="text-foreground text-sm">
-            Specjalista:{" "}
-            <span className="font-semibold">
-              {appointment.provider.firstName} {appointment.provider.lastName}
-            </span>
-          </div>
+          <Link
+            href={`/specjalisci/${appointment.provider.slug}`}
+            className="font-semibold hover:underline"
+          >
+            <div className="mt-2 flex items-center gap-x-2">
+              <Avatar
+                className="h-6 w-6 text-xs md:h-8 md:w-8 md:text-sm"
+                photo={appointment.provider.photo}
+                name={`${appointment.provider.firstName} ${appointment.provider.lastName}`}
+              />
+              <p className="text-sm">
+                {appointment.provider.firstName} {appointment.provider.lastName}
+              </p>
+            </div>
+          </Link>
         </div>
         <div>{getStatusBadge(appointment.status)}</div>
       </CardContent>
-      <CardFooter className="items-end">
+      <CardFooter className="items-end px-4 md:px-6">
         <div className="flex-grow space-y-1">
           <div className="flex items-center">
             <Calendar className="mr-2 h-4 w-4" />

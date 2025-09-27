@@ -5,7 +5,7 @@ import { ServiceCard } from "@/features/service/components/service-card";
 import { api } from "@/trpc/server";
 import { Suspense } from "react";
 
-export default function AppointmentsPage() {
+export default function ProfileAppointmentsPage() {
   return (
     <>
       <SectionWrapper>
@@ -32,6 +32,7 @@ async function ServicesListSuspense() {
           service={service}
           showDescription
           bookButton
+          href={`/profile/uslugi/${service.slug}`}
         />
       ))}
     </div>

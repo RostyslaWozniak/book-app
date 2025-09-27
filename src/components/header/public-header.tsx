@@ -14,7 +14,7 @@ const navigation = [
 
 export function PublicHeader() {
   return (
-    <header className="bg-muted py-2">
+    <header className="bg-card py-2">
       <MaxWidthWrapper className="flex items-center justify-between">
         <nav>
           <ul className="hidden gap-x-4 md:flex">

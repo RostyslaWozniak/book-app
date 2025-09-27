@@ -29,9 +29,15 @@ import { cn } from "@/lib/utils/cn";
 export function BookAppointmentForm({
   serviceId,
   providerSlug,
+  user,
 }: {
   serviceId: string;
   providerSlug?: string;
+  user?: {
+    email: string;
+    name: string;
+    phone: string | null;
+  };
 }) {
   const [isDateDialogOpen, setIsDateDialogOpen] = useState(true);
   const [isTimeDialogOpen, setIsTimeDialogOpen] = useState(false);
@@ -42,9 +48,9 @@ export function BookAppointmentForm({
   const form = useForm<AppointmentFormSchema>({
     resolver: zodResolver(appointmentFromSchema),
     defaultValues: {
-      contactEmail: "",
-      contactName: "",
-      contactPhone: "",
+      contactEmail: user ? user.email : "",
+      contactName: user ? user.name : "",
+      contactPhone: user ? (user.phone ?? "") : "",
     },
   });
 
@@ -52,7 +58,7 @@ export function BookAppointmentForm({
     api.public.appointment.book.useMutation({
       onSuccess: () => {
         toast.success("Wizutę zarezerwowano");
-        router.push("/");
+        router.push(user ? "/profile" : "/");
       },
       onError: ({ message }) => {
         toast.error(message);
@@ -112,47 +118,51 @@ export function BookAppointmentForm({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="contactName"
-            render={({ field }) => (
-              <FormItem className="relative">
-                <FormLabel>Imię *</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="text-foreground"
-                    placeholder="Jan Kowalski"
-                    autoComplete="name"
-                    type="text"
-                    ref={nameInputRef}
-                  />
-                </FormControl>
+          {!user && (
+            <>
+              <FormField
+                control={form.control}
+                name="contactName"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    <FormLabel>Imię *</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="text-foreground"
+                        placeholder="Jan Kowalski"
+                        autoComplete="name"
+                        type="text"
+                        ref={nameInputRef}
+                      />
+                    </FormControl>
 
-                <FormMessage className="absolute top-0 right-0 w-min rounded-full bg-red-600 px-2 text-xs font-semibold text-nowrap text-white" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="contactEmail"
-            render={({ field }) => (
-              <FormItem className="relative">
-                <FormLabel className="">Email * </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="text-foreground"
-                    placeholder="twój-email@mail.com"
-                    autoComplete="email"
-                    type="email"
-                  />
-                </FormControl>
+                    <FormMessage className="absolute top-0 right-0 w-min rounded-full bg-red-600 px-2 text-xs font-semibold text-nowrap text-white" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="contactEmail"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    <FormLabel className="">Email * </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="text-foreground"
+                        placeholder="twój-email@mail.com"
+                        autoComplete="email"
+                        type="email"
+                      />
+                    </FormControl>
 
-                <FormMessage className="absolute top-0 right-0 w-min rounded-full bg-red-600 px-2 text-xs font-semibold text-nowrap text-white" />
-              </FormItem>
-            )}
-          />
+                    <FormMessage className="absolute top-0 right-0 w-min rounded-full bg-red-600 px-2 text-xs font-semibold text-nowrap text-white" />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
           <div className="flex gap-2 sm:justify-end md:col-span-2">
             <LoadingButton
               loading={isPending}
