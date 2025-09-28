@@ -32,7 +32,7 @@ async function ServicesListSuspense() {
           service={service}
           showDescription
           bookButton
-          href={`/profile/uslugi/${service.slug}`}
+          href={`/profile/services/${service.slug}`}
         />
       ))}
     </div>

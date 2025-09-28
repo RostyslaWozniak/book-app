@@ -33,7 +33,7 @@ export const privateAppointmentRouter = createTRPCRouter({
       const appointments = await ctx.db.appointment.findMany({
         where,
         orderBy: {
-          createdAt: "desc",
+          startTime: "desc",
         },
         take: input.take,
         skip: input.skip,
@@ -62,7 +62,7 @@ export const privateAppointmentRouter = createTRPCRouter({
           gte: now,
         },
         status: {
-          not: "CANCELLED",
+          notIn: ["CANCELLED", "COMPLETED"],
         },
       };
 
@@ -70,7 +70,7 @@ export const privateAppointmentRouter = createTRPCRouter({
       const appointments = await ctx.db.appointment.findMany({
         where,
         orderBy: {
-          createdAt: "desc",
+          startTime: "asc",
         },
         take: input.take,
         skip: input.skip,
