@@ -21,7 +21,7 @@ const appointmentsNav = [
 ];
 export function ProfileAppointmentsNav() {
   return (
-    <nav className="relative">
+    <nav className="relative -mx-4">
       <div className="from-background absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r to-transparent"></div>
       <ul className="scrollbar-hide flex items-center gap-2 overflow-x-auto px-4 py-4">
         {appointmentsNav.map(({ url, title }) => (

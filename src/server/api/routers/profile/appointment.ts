@@ -125,6 +125,38 @@ export const profileAppointmentRouter = createTRPCRouter({
         appointmentsCount,
       };
     }),
+  getCanceled: privateProcedure
+    .input(getAppointmentsSchema)
+    .query(async ({ ctx, input }): AppointmentsReturnType => {
+      const where: Prisma.AppointmentWhereInput = {
+        userId: ctx.user.id,
+        status: {
+          equals: "CANCELLED",
+        },
+      };
+
+      const appointmentsCount = await getAppointmentsCount(where);
+      const appointments = await ctx.db.appointment.findMany({
+        where,
+        orderBy: {
+          startTime: "desc",
+        },
+        take: input.take,
+        skip: input.skip,
+        select: GET_APPOINTMENT_SELECT_FIELDS,
+      });
+
+      return {
+        appointments: appointments.map((a) => ({
+          ...a,
+          provider: {
+            slug: a.providerSchedule.providerProfile.slug,
+            ...a.providerSchedule.providerProfile.user,
+          },
+        })),
+        appointmentsCount,
+      };
+    }),
 });
 
 function getAppointmentsCount(where: Prisma.AppointmentWhereInput) {
