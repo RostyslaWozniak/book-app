@@ -12,7 +12,7 @@ export default async function UserProfileEditPage() {
     <>
       <SectionWrapper paddingBlock={PAGE_VIEW_CONFIG.blockPadding}>
         <MaxWidthWrapper size={PAGE_VIEW_CONFIG.width}>
-          <SectionHeader heading={H1} title="Edytój swój profil" />
+          <SectionHeader heading={H1} title="Edytuj swój profil" />
           <EditProfileForm profile={profile} />
         </MaxWidthWrapper>
       </SectionWrapper>
