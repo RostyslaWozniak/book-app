@@ -11,7 +11,7 @@ export async function CanceledAppointments({
   appointmentsNumb: number;
 }) {
   const { appointments, appointmentsCount } =
-    await api.profile.appointment.getCanceled({
+    await api.private.appointment.getCanceled({
       take: appointmentsNumb,
     });
   return (

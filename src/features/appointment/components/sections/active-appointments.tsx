@@ -11,7 +11,7 @@ export async function ActiveAppointments({
   appointmentsNumb: number;
 }) {
   const { appointments, appointmentsCount } =
-    await api.profile.appointment.getActive({
+    await api.private.appointment.getActive({
       take: appointmentsNumb,
     });
 

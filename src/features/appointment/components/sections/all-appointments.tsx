@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export async function AllAppointments() {
   const { appointments, appointmentsCount } =
-    await api.profile.appointment.getAll();
+    await api.private.appointment.getAll();
   return (
     <>
       <AppointmentsList

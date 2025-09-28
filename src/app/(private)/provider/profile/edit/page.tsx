@@ -11,7 +11,7 @@ export default async function ProviderProfileEditPage() {
     <>
       <SectionWrapper>
         <MaxWidthWrapper>
-          <SectionHeader heading={H1} title="Edytój profil specjalisty" />
+          <SectionHeader heading={H1} title="Edytuj profil specjalisty" />
           <EditProviderProfileForm profile={profile} />
         </MaxWidthWrapper>
       </SectionWrapper>

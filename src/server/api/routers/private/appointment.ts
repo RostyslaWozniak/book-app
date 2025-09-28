@@ -21,7 +21,7 @@ type AppointmentsReturnType = Promise<{
   appointmentsCount: number;
 }>;
 
-export const profileAppointmentRouter = createTRPCRouter({
+export const privateAppointmentRouter = createTRPCRouter({
   getAll: privateProcedure
     .input(getAppointmentsSchema)
     .query(async ({ ctx, input }): AppointmentsReturnType => {

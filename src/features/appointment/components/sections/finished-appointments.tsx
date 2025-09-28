@@ -11,7 +11,7 @@ export async function FinishedAppointments({
   appointmentsNumb: number;
 }) {
   const { appointments, appointmentsCount } =
-    await api.profile.appointment.getFinished({
+    await api.private.appointment.getFinished({
       take: appointmentsNumb,
     });
   return (
