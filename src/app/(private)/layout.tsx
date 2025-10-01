@@ -24,7 +24,7 @@ export default function PrivateLayout({
       <body className="flex min-h-screen flex-col">
         <Providers>
           <main className="flex-grow">{children}</main>
-          <Toaster richColors />
+          <Toaster richColors position="top-center" />
         </Providers>
       </body>
     </html>

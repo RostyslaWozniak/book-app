@@ -44,7 +44,7 @@ export default function PublicLayout({
           </main>
           <Footer />
           <PublicMobileNav />
-          <Toaster richColors />
+          <Toaster richColors position="top-center" />
         </Providers>
       </body>
     </html>
