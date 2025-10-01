@@ -5,7 +5,7 @@ import { format, startOfWeek, addDays, getHours, getMinutes } from "date-fns";
 import type {
   WeekDayInfo,
   AppointmentPosition,
-  AppointmentType,
+  CalendarAppointment,
 } from "../../types/appointment";
 import { pl } from "date-fns/locale";
 import type { AvailabilityType } from "../../types/availability";
@@ -63,10 +63,10 @@ export function generateTimeSlots(
  * Filters appointments that fall within the current week view
  */
 export function filterAppointmentsForWeek(
-  appointments: AppointmentType[] | undefined,
+  appointments: CalendarAppointment[] | undefined,
   weekDays: WeekDayInfo[],
   statuses: $Enums.AppointmentStatus[],
-): AppointmentType[] {
+): CalendarAppointment[] {
   if (!appointments) return [];
   return appointments.filter((appointment) => {
     const appointmentDate = new Date(appointment.startTime);

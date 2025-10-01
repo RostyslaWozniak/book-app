@@ -1,5 +1,5 @@
 import { LoaderIcon } from "lucide-react";
-import { useScheduleCalendarContext } from "./context/schedule-calendar-context";
+import { useScheduleCalendarContext } from "../context/schedule-calendar-context";
 
 export function CalendarLoader() {
   const { isAppointmentsLoading } = useScheduleCalendarContext();

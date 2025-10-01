@@ -1,15 +1,28 @@
-import type { $Enums, Appointment } from "@prisma/client";
+import type {
+  $Enums,
+  Appointment as PrismaAppointment,
+  User as PrismaUser,
+  Service as PrismaService,
+} from "@prisma/client";
 
-export type AppointmentType = Pick<
-  Appointment,
+type CalendarUser = Pick<
+  PrismaUser,
+  "id" | "firstName" | "lastName" | "phoneNumber" | "photo"
+>;
+
+type CalendarService = Pick<PrismaService, "name">;
+
+export type CalendarAppointment = Pick<
+  PrismaAppointment,
   | "id"
   | "startTime"
   | "endTime"
   | "status"
   | "contactName"
   | "contactEmail"
+  | "contactPhone"
   | "createdAt"
->;
+> & { user: CalendarUser } & { service: CalendarService };
 
 export type WeekDayInfo = {
   name: string;

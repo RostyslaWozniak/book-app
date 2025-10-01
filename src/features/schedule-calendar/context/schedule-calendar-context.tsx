@@ -19,7 +19,7 @@ import { getWeekDateRange } from "../lib/utils/get-month-date-range";
 import { api } from "@/trpc/react";
 import { useQueryState, type Options } from "nuqs";
 import type { AvailabilityType } from "../types/availability";
-import type { AppointmentType, WeekDayInfo } from "../types/appointment";
+import type { CalendarAppointment, WeekDayInfo } from "../types/appointment";
 import { getWeek } from "@/lib/utils/date";
 import { getLocalStorageItem } from "@/lib/utils/local-storage";
 import type { CalendarPreferences } from "../types";
@@ -49,7 +49,7 @@ type ScheduleCalendarContextType = {
   statuses: $Enums.AppointmentStatus[];
   setStatuses: Dispatch<SetStateAction<$Enums.AppointmentStatus[]>>;
   weekDays: WeekDayInfo[];
-  visibleAppointments: AppointmentType[];
+  visibleAppointments: CalendarAppointment[];
 };
 
 export const ScheduleCalendarContext =

@@ -6,6 +6,7 @@ import { UserService } from "@/features/user/server/services/user.service";
 import { $Enums } from "@prisma/client";
 import { availabilityTimeToString } from "@/features/availability/lib/dates";
 import { calculteAvailabilityTimeToCurrentTimezone } from "@/lib/utils/date/timezone";
+import type { CalendarAppointment } from "@/features/schedule-calendar/types";
 
 export const adminProviderRouter = createTRPCRouter({
   getAvailabilities: adminProcedure
@@ -64,9 +65,7 @@ export const adminProviderRouter = createTRPCRouter({
         statuses: z.array(z.nativeEnum($Enums.AppointmentStatus)).optional(),
       }),
     )
-    .query(async ({ ctx, input }) => {
-      console.log(input);
-
+    .query(async ({ ctx, input }): Promise<CalendarAppointment[]> => {
       const providerSchedule = await ctx.db.providerSchedule.findFirst({
         where: {
           providerProfileId: input.providerId,
@@ -103,8 +102,59 @@ export const adminProviderRouter = createTRPCRouter({
             in: input.statuses,
           },
         },
+        select: {
+          id: true,
+          startTime: true,
+          endTime: true,
+          status: true,
+          contactEmail: true,
+          contactName: true,
+          contactPhone: true,
+          createdAt: true,
+          service: {
+            select: {
+              name: true,
+            },
+          },
+          providerSchedule: {
+            select: {
+              providerProfile: {
+                select: {
+                  user: {
+                    select: {
+                      id: true,
+                      firstName: true,
+                      lastName: true,
+                      phoneNumber: true,
+                      photo: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       });
 
-      return appointments;
+      return appointments.map((a) => ({
+        id: a.id,
+        startTime: a.startTime,
+        endTime: a.endTime,
+        status: a.status,
+        contactName: a.contactName,
+        contactEmail: a.contactEmail,
+        contactPhone: a.contactPhone,
+        createdAt: a.createdAt,
+        service: {
+          name: a.service.name,
+        },
+        user: {
+          id: a.providerSchedule.providerProfile.user.id,
+          firstName: a.providerSchedule.providerProfile.user.firstName,
+          lastName: a.providerSchedule.providerProfile.user.lastName,
+          phoneNumber: a.providerSchedule.providerProfile.user.phoneNumber,
+          photo: a.providerSchedule.providerProfile.user.photo,
+        },
+      }));
     }),
 });

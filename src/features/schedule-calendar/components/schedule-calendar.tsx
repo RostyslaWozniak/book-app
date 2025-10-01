@@ -8,7 +8,7 @@ import { ScheduleCalendarContextProvider } from "../context/schedule-calendar-co
 import { CalendarPreferences } from "./calendar-preferences";
 import type { AvailabilityType } from "../types/availability";
 import { AppointmentStatusManager } from "./appointment-status-manager";
-import { CalendarLoader } from "../calendar-loader";
+import { CalendarLoader } from "./calendar-loader";
 import { Card, CardContent, CardHeader } from "@/components/shadcn-ui/card";
 
 type ScheduleCalendarProps = {
