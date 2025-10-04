@@ -19,7 +19,6 @@ export async function FinishedAppointments({
       appointments={appointments}
       appointmentsCount={appointmentsCount}
       title="Zakończone wizyty"
-      moreHref="/profile/visits/finished"
       emptyComponent={() => (
         <EmptyResult
           icon={ClockIcon}
