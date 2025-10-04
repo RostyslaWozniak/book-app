@@ -18,7 +18,7 @@ export function AppointmentsList({
   moreHref?: string;
 }) {
   const showMoreButton = appointmentsCount === 0 || appointments.length > 1;
-  const isEmpty = appointmentsCount === 0;
+  const isEmpty = appointments.length === 0;
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex items-center justify-between">

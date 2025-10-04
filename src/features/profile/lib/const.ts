@@ -1,0 +1,1 @@
+export const PROFILE_APPOINTMENTS_PER_PAGE = 9;

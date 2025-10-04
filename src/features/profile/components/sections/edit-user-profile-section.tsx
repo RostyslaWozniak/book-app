@@ -1,12 +1,22 @@
+import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { api } from "@/trpc/server";
+import { PAGE_VIEW_CONFIG } from "../../lib/config/page-view.config";
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import { SectionHeader } from "@/components/ui/section-header";
-import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { EditProfileForm } from "../forms/edit-profile-form";
 import { H1 } from "@/components/ui/typography";
-import { EditProfileForm } from "@/features/profile/components/forms/edit-profile-form";
-import { PAGE_VIEW_CONFIG } from "@/features/profile/lib/config/page-view.config";
-import { api } from "@/trpc/server";
+import { Suspense } from "react";
+import { LoadingPage } from "@/components/loading-page";
 
-export default async function UserProfileEditPage() {
+export function EditUserProfileSection() {
+  return (
+    <Suspense fallback={<LoadingPage />}>
+      <SuspendedEditUserProfile />
+    </Suspense>
+  );
+}
+
+async function SuspendedEditUserProfile() {
   const profile = await api.private.user.getProfile();
   return (
     <>

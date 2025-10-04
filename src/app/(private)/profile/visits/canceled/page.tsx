@@ -1,20 +1,22 @@
-import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { AppointmentsSuspenseViewWrapper } from "@/features/appointment/components/appointments-suspense-view-wrapper";
 import { CanceledAppointments } from "@/features/appointment/components/sections/canceled-appointmentns";
-import { AppointmentsListSkeleton } from "@/features/appointment/components/skeletons/appointments-list.skeleton";
-import { PAGE_VIEW_CONFIG } from "@/features/profile/lib/config/page-view.config";
-import { Suspense } from "react";
+import { PROFILE_APPOINTMENTS_PER_PAGE } from "@/features/profile/lib/const";
 
-export default function ProfileFinishedVisitsPage() {
+export default async function ProfileFinishedVisitsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: string }>;
+}) {
+  const { page } = await searchParams;
+
+  const pNumber = Number(page);
+
+  const pageNumber = isNaN(pNumber) ? 1 : pNumber;
+  const skip = (pageNumber - 1) * PROFILE_APPOINTMENTS_PER_PAGE;
+
   return (
-    <SectionWrapper paddingBlock={PAGE_VIEW_CONFIG.blockPadding}>
-      <MaxWidthWrapper size={PAGE_VIEW_CONFIG.width}>
-        <Suspense
-          fallback={<AppointmentsListSkeleton appointmentsToShow={3} />}
-        >
-          <CanceledAppointments appointmentsNumb={9} />
-        </Suspense>
-      </MaxWidthWrapper>
-    </SectionWrapper>
+    <AppointmentsSuspenseViewWrapper skeletonsToShow={3}>
+      <CanceledAppointments take={PROFILE_APPOINTMENTS_PER_PAGE} skip={skip} />
+    </AppointmentsSuspenseViewWrapper>
   );
 }

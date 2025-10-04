@@ -6,13 +6,16 @@ import { Button } from "@/components/shadcn-ui/button";
 import Link from "next/link";
 
 export async function CanceledAppointments({
-  appointmentsNumb,
+  take,
+  skip,
 }: {
-  appointmentsNumb: number;
+  take: number;
+  skip: number;
 }) {
   const { appointments, appointmentsCount } =
     await api.private.appointment.getCanceled({
-      take: appointmentsNumb,
+      take,
+      skip,
     });
   return (
     <AppointmentsList

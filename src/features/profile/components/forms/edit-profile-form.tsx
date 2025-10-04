@@ -17,7 +17,7 @@ import type { ClientProfile } from "../../types/client-profile.type";
 import {
   editProfileSchema,
   type EditProfileSchema,
-} from "../../lib/config/validation/edit-profile-schema";
+} from "../../lib/validation/edit-profile-schema";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
 

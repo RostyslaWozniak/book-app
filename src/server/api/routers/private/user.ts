@@ -2,7 +2,7 @@ import type { ClientProfile } from "@/features/profile/types/client-profile.type
 import { privateProcedure } from "../../procedures/private-procedure";
 import { createTRPCRouter } from "../../trpc";
 import { TRPCError } from "@trpc/server";
-import { editProfileSchema } from "@/features/profile/lib/config/validation/edit-profile-schema";
+import { editProfileSchema } from "@/features/profile/lib/validation/edit-profile-schema";
 
 export const privateUserRouter = createTRPCRouter({
   getProfile: privateProcedure.query(

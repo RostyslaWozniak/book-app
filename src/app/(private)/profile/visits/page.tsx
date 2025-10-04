@@ -1,20 +1,22 @@
-import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { AppointmentsSuspenseViewWrapper } from "@/features/appointment/components/appointments-suspense-view-wrapper";
 import { AllAppointments } from "@/features/appointment/components/sections/all-appointments";
-import { AppointmentsListSkeleton } from "@/features/appointment/components/skeletons/appointments-list.skeleton";
-import { PAGE_VIEW_CONFIG } from "@/features/profile/lib/config/page-view.config";
-import { Suspense } from "react";
+import { PROFILE_APPOINTMENTS_PER_PAGE } from "@/features/profile/lib/const";
 
-export default function ProfileVisitsPage() {
+export default async function ProfileVisitsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: string }>;
+}) {
+  const { page } = await searchParams;
+
+  const pNumber = Number(page);
+
+  const pageNumber = isNaN(pNumber) ? 1 : pNumber;
+  const skip = (pageNumber - 1) * PROFILE_APPOINTMENTS_PER_PAGE;
+
   return (
-    <SectionWrapper paddingBlock={PAGE_VIEW_CONFIG.blockPadding}>
-      <MaxWidthWrapper size={PAGE_VIEW_CONFIG.width}>
-        <Suspense
-          fallback={<AppointmentsListSkeleton appointmentsToShow={3} />}
-        >
-          <AllAppointments />
-        </Suspense>
-      </MaxWidthWrapper>
-    </SectionWrapper>
+    <AppointmentsSuspenseViewWrapper skeletonsToShow={3}>
+      <AllAppointments take={PROFILE_APPOINTMENTS_PER_PAGE} skip={skip} />
+    </AppointmentsSuspenseViewWrapper>
   );
 }

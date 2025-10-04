@@ -5,9 +5,15 @@ import { CalendarIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/shadcn-ui/button";
 import Link from "next/link";
 
-export async function AllAppointments() {
+export async function AllAppointments({
+  take = 9,
+  skip = 0,
+}: {
+  take?: number;
+  skip?: number;
+}) {
   const { appointments, appointmentsCount } =
-    await api.private.appointment.getAll();
+    await api.private.appointment.getAll({ take, skip });
   return (
     <>
       <AppointmentsList

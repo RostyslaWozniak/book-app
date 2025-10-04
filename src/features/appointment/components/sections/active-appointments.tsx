@@ -6,13 +6,16 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn-ui/button";
 
 export async function ActiveAppointments({
-  appointmentsNumb,
+  take,
+  skip,
 }: {
-  appointmentsNumb: number;
+  take: number;
+  skip: number;
 }) {
   const { appointments, appointmentsCount } =
     await api.private.appointment.getActive({
-      take: appointmentsNumb,
+      take,
+      skip,
     });
 
   return (
