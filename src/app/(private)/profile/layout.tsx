@@ -16,8 +16,8 @@ export default function ProfileLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <SectionWrapper paddingBlock="xs" className="mt-4">
-        <MaxWidthWrapper size={PAGE_VIEW_CONFIG.width}>
+      <SectionWrapper paddingBlock="sm">
+        <MaxWidthWrapper size={PAGE_VIEW_CONFIG.width} className="px-0 md:px-4">
           <Breadcrumb startWith="/profile" />
         </MaxWidthWrapper>
       </SectionWrapper>

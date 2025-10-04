@@ -23,7 +23,7 @@ export default function PrivateLayout({
     <html lang="pl" className={`${geist.variable}`} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
         <Providers>
-          <main className="flex-grow">{children}</main>
+          <main className="relative flex-grow">{children}</main>
           <Toaster richColors position="top-center" />
         </Providers>
       </body>
