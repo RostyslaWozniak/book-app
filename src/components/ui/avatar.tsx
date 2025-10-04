@@ -21,7 +21,9 @@ export function Avatar({
       className={cn("h-20 w-20 text-xl md:h-24 md:w-24 md:text-2xl", className)}
     >
       {photo && <AvatarImage src={photo} alt={name} className="object-cover" />}
-      <AvatarFallback>{initials}</AvatarFallback>
+      <AvatarFallback className="border-foreground/40">
+        {initials}
+      </AvatarFallback>
     </ShadcnAvatar>
   );
 }

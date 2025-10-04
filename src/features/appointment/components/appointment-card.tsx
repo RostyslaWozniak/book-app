@@ -40,7 +40,7 @@ export function AppointmentCard({
           </CardTitle>
           <Link
             href={`/specjalisci/${appointment.provider.slug}`}
-            className="font-semibold hover:underline"
+            className="group font-semibold"
           >
             <div className="mt-2 flex items-center gap-x-2">
               <Avatar
@@ -48,7 +48,7 @@ export function AppointmentCard({
                 photo={appointment.provider.photo}
                 name={`${appointment.provider.firstName} ${appointment.provider.lastName}`}
               />
-              <p className="text-sm">
+              <p className="text-sm group-hover:underline">
                 {appointment.provider.firstName} {appointment.provider.lastName}
               </p>
             </div>
