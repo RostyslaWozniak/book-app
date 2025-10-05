@@ -23,7 +23,7 @@ export function MobileNav({
     >
       <ul
         className={cn(
-          "bg-card/80 grid backdrop-blur",
+          "bg-background/20 grid backdrop-blur",
           {
             "md:rounded-lg": isVisibleOnDesktop,
           },
@@ -34,10 +34,10 @@ export function MobileNav({
           <li key={url}>
             <Link href={url}>
               <div className="flex flex-col items-center py-2">
-                <div className="bg-foreground/20 mb-1 rounded-full p-2">
+                <div className="bg-foreground/10 mb-1 rounded-full p-2">
                   <Icon />
                 </div>
-                <span className="text-xs">{title}</span>
+                <span className="text-xs tracking-widest">{title}</span>
               </div>
             </Link>
           </li>
