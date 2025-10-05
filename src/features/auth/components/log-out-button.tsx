@@ -20,6 +20,7 @@ export function LogOutButton({ children, className, ...props }: ButtonProps) {
     <LoadingButton
       loading={isPending}
       variant="destructive"
+      size="lg"
       onClick={hadnleLogOut}
       className={className}
       {...props}

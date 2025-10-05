@@ -1,6 +1,15 @@
 import { cn } from "@/lib/utils/cn";
 import { FrownIcon, type LucideIcon } from "lucide-react";
 
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/shadcn-ui/empty";
+
 type EmptyResultProps = {
   title: string;
   titleClassName?: string;
@@ -21,20 +30,15 @@ export function EmptyResult({
   className,
 }: EmptyResultProps) {
   return (
-    <div
-      className={cn(
-        "bg-muted flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-4 text-center",
-        className,
-      )}
-    >
-      <Icon className={cn("mb-4 h-12 w-12", iconClassName)} />
-      <p className={cn(titleClassName, "text-lg font-medium")}>{title}</p>
-      {description && (
-        <p className="text-muted-foreground max-w-md text-center text-sm">
-          {description}
-        </p>
-      )}
-      {actionButton}
-    </div>
+    <Empty className={cn("bg-muted/20 border border-dashed", className)}>
+      <EmptyHeader>
+        <EmptyMedia variant="icon" className={iconClassName}>
+          <Icon />
+        </EmptyMedia>
+        <EmptyTitle className={titleClassName}>{title}</EmptyTitle>
+        <EmptyDescription>{description}</EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>{actionButton}</EmptyContent>
+    </Empty>
   );
 }

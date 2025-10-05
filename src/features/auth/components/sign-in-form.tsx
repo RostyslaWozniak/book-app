@@ -8,12 +8,17 @@ import {
   FormLabel,
 } from "@/components/shadcn-ui/form";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/shadcn-ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/shadcn-ui/input-group";
 import { signInSchema, type SignInSchema } from "../schemas/sign-in-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@/components/ui/loading-button";
 import { useState, useTransition } from "react";
 import { signInAction } from "../actions/sign-in-action";
+import { MailIcon } from "lucide-react";
 
 export function SignInForm() {
   const [isPending, startTransition] = useTransition();
@@ -46,9 +51,9 @@ export function SignInForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center justify-between">
-                <span>
-                  Twój E-mail <span className="text-destructive">*</span>
-                </span>
+                <div>
+                  E-mail <span className="text-destructive ml-1">*</span>
+                </div>
                 {form.formState.errors.email && (
                   <p className="text-destructive text-xs">
                     {form.formState.errors.email.message}
@@ -56,19 +61,29 @@ export function SignInForm() {
                 )}
               </FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="twój-email@mail.com"
-                  {...field}
-                />
+                <InputGroup>
+                  <InputGroupInput
+                    type="email"
+                    autoComplete="email"
+                    placeholder="twój-email@mail.com"
+                    {...field}
+                  />
+                  <InputGroupAddon>
+                    <MailIcon />
+                  </InputGroupAddon>
+                </InputGroup>
               </FormControl>
             </FormItem>
           )}
         />
 
         {error && <div className="text-destructive text-sm">{error}</div>}
-        <LoadingButton loading={isPending} type="submit" className="w-full">
+        <LoadingButton
+          size="lg"
+          loading={isPending}
+          type="submit"
+          className="w-full"
+        >
           Zaloguje się
         </LoadingButton>
       </form>

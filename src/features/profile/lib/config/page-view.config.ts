@@ -8,5 +8,5 @@ type PageViewConfig = {
 
 export const PAGE_VIEW_CONFIG: PageViewConfig = {
   width: "sm",
-  blockPadding: "xs",
+  blockPadding: "sm",
 };

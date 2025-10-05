@@ -8,12 +8,17 @@ import {
   FormLabel,
 } from "@/components/shadcn-ui/form";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/shadcn-ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoadingButton } from "@/components/ui/loading-button";
 import { useState, useTransition } from "react";
 import { signUpSchema, type SignUpSchema } from "../schemas/sign-up-schema";
 import { signUpAction } from "../actions/sign-up-action";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/shadcn-ui/input-group";
+import { MailIcon, UserIcon } from "lucide-react";
 
 export function SignUpForm() {
   const [isPending, startTransition] = useTransition();
@@ -48,7 +53,9 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center justify-between">
-                Twoje imie *
+                <div>
+                  Imie <span className="text-destructive ml-1">*</span>
+                </div>
                 {form.formState.errors.firstName && (
                   <p className="text-destructive text-xs">
                     {form.formState.errors.firstName.message}
@@ -56,12 +63,17 @@ export function SignUpForm() {
                 )}
               </FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  autoComplete="first name"
-                  placeholder="Jan"
-                  {...field}
-                />
+                <InputGroup>
+                  <InputGroupInput
+                    type="text"
+                    autoComplete="first name"
+                    placeholder="Jan"
+                    {...field}
+                  />
+                  <InputGroupAddon>
+                    <UserIcon />
+                  </InputGroupAddon>
+                </InputGroup>
               </FormControl>
             </FormItem>
           )}
@@ -72,7 +84,9 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center justify-between">
-                Twoje nazwisko *
+                <div>
+                  Nazwisko <span className="text-destructive ml-1">*</span>
+                </div>
                 {form.formState.errors.lastName && (
                   <p className="text-destructive text-xs">
                     {form.formState.errors.lastName.message}
@@ -80,12 +94,17 @@ export function SignUpForm() {
                 )}
               </FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  autoComplete="last name"
-                  placeholder="Kowalski"
-                  {...field}
-                />
+                <InputGroup>
+                  <InputGroupInput
+                    type="text"
+                    autoComplete="last name"
+                    placeholder="Kowalski"
+                    {...field}
+                  />
+                  <InputGroupAddon>
+                    <UserIcon />
+                  </InputGroupAddon>
+                </InputGroup>
               </FormControl>
             </FormItem>
           )}
@@ -96,7 +115,9 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center justify-between">
-                Twój E-mail *
+                <div>
+                  E-mail <span className="text-destructive ml-1">*</span>
+                </div>
                 {form.formState.errors.email && (
                   <p className="text-destructive text-xs">
                     {form.formState.errors.email.message}
@@ -104,12 +125,17 @@ export function SignUpForm() {
                 )}
               </FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="twój-email@mail.com"
-                  {...field}
-                />
+                <InputGroup>
+                  <InputGroupInput
+                    type="email"
+                    autoComplete="email"
+                    placeholder="twój-email@mail.com"
+                    {...field}
+                  />
+                  <InputGroupAddon>
+                    <MailIcon />
+                  </InputGroupAddon>
+                </InputGroup>
               </FormControl>
             </FormItem>
           )}

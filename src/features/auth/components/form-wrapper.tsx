@@ -23,7 +23,7 @@ export const FormWrapper = ({
 }: FormWrapperProps) => {
   return (
     <div className="flex w-full">
-      <div className="mx-auto w-full space-y-10 px-5 min-[500px]:max-w-md md:py-10">
+      <div className="mx-auto w-full space-y-10 min-[500px]:max-w-md md:py-10">
         <div className="space-y-3">
           <h1 className="text-center text-2xl font-bold md:text-3xl">
             {title}

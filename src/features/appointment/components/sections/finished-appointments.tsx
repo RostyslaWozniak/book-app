@@ -26,7 +26,7 @@ export async function FinishedAppointments({
       emptyComponent={() => (
         <EmptyResult
           icon={ClockIcon}
-          title="Brak wczeszniejszych wizyt"
+          title="Brak zakończonyc wizyt"
           description="Tutaj znajdziesz swoje zakończone wizyty."
           actionButton={
             <Link href="/profile/services" className="mt-6 w-full">

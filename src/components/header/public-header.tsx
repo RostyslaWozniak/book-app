@@ -1,3 +1,4 @@
+import { LogInIcon, PlusIcon } from "lucide-react";
 import { Button } from "../shadcn-ui/button";
 import { AccessibleLink } from "../ui/accesible-link";
 import { MaxWidthWrapper } from "../ui/max-width-wrapper";
@@ -16,8 +17,8 @@ export function PublicHeader() {
   return (
     <header className="bg-card py-2">
       <MaxWidthWrapper className="flex items-center justify-between">
-        <nav>
-          <ul className="hidden gap-x-4 md:flex">
+        <nav className="hidden md:block">
+          <ul className="flex gap-x-4">
             {navigation.map(({ ariaLabel, label, href }) => (
               <li key={href} className="hover:underline">
                 <AccessibleLink href={href} aria-label={ariaLabel}>
@@ -27,14 +28,27 @@ export function PublicHeader() {
             ))}
           </ul>
         </nav>
-        <div className="flex items-center gap-x-2">
-          <AccessibleLink href="/uslugi/nowa" aria-label="Przejdź do wizyt">
-            <Button>Umów wizytę</Button>
+        <div className="flex flex-grow items-center justify-between gap-x-2 md:flex-grow-0">
+          <AccessibleLink
+            href="/uslugi/nowa"
+            className="hidden md:flex"
+            aria-label="Przejdź do umawiania wizyty"
+          >
+            <Button variant="secondary">
+              Umów wizytę
+              <PlusIcon />
+            </Button>
           </AccessibleLink>
-          <AccessibleLink href="/login" aria-label="Przejdź do logowania">
-            <Button>Zaloguj się</Button>
+          <AccessibleLink
+            href="/login"
+            className="w-min sm:mx-0"
+            aria-label="Przejdź do logowania"
+          >
+            <Button>
+              Zaloguj się
+              <LogInIcon />
+            </Button>
           </AccessibleLink>
-
           <ThemeToggle />
         </div>
       </MaxWidthWrapper>
