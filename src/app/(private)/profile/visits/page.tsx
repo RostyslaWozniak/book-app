@@ -9,9 +9,7 @@ export default async function ProfileVisitsPage({
 }) {
   const { page } = await searchParams;
 
-  const pNumber = Number(page);
-
-  const pageNumber = isNaN(pNumber) ? 1 : pNumber;
+  const pageNumber = isNaN(+page) ? 1 : +page;
   const skip = (pageNumber - 1) * PROFILE_APPOINTMENTS_PER_PAGE;
 
   return (
