@@ -19,9 +19,8 @@ export function LogoutDialog() {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         title="Czy napewno chcesz wylogować się?"
-        className="flex justify-end"
       >
-        <LogOutButton className="mt-4">Wyloguj się</LogOutButton>
+        <LogOutButton className="mt-4 w-full">Wyloguj się</LogOutButton>
       </DialogWrapper>
     </>
   );

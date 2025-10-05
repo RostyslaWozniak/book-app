@@ -9,7 +9,8 @@ import { AdminMobileNav } from "@/components/mobile-nav/admin-mobile-nav";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { EmptyResult } from "@/components/ui/empty-result";
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { XIcon } from "lucide-react";
+import { LogOutIcon, XIcon } from "lucide-react";
+import { LogOutButton } from "@/features/auth/components/log-out-button";
 
 export const metadata: Metadata = {
   title: "System dla rezerwacji wizyt online - Book App",
@@ -42,6 +43,12 @@ export default function ProviderLayout({
             iconClassName="text-destructive bg-destructive/20"
             title="Urządzenie nieobsługiwane"
             description="Ta aplikacja nie działa na telefonach ani tabletach. Aby kontynuować, użyj komputera lub laptopa — rozmiar ekranu nie jest obsługiwany."
+            actionButton={
+              <LogOutButton className="mt-4 w-full">
+                <LogOutIcon />
+                Wyloguj się
+              </LogOutButton>
+            }
           />
         </MaxWidthWrapper>
       </div>

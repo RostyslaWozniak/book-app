@@ -1,91 +1,97 @@
-import { ArrowUpRight, PlusIcon } from "lucide-react";
+import { CheckIcon, ClockIcon, SearchIcon, StarIcon } from "lucide-react";
 import { Button } from "../shadcn-ui/button";
 import Link from "next/link";
+import { Badge } from "../shadcn-ui/badge";
+import { SectionHeader } from "../ui/section-header";
+import { Card, CardContent } from "../shadcn-ui/card";
+import { H1 } from "../ui/typography";
 
-type HeroSection = {
-  heading?: string;
-  subheading?: string;
-  description?: string;
-  image?: {
-    src: string;
-    alt: string;
-  };
-  buttons?: {
-    primary?: {
-      text: string;
-      url: string;
-    };
-    secondary?: {
-      text: string;
-      url: string;
-    };
-  };
-};
-
-export const HeroSection = ({
-  heading = "Osiągaj cele",
-  subheading = " z pełną świadomością i pewnością siebie.",
-  description = "Coaching, który prowadzi do prawdziwej zmiany – zawodowej, osobistej i emocjonalnej. Odkryj, kim naprawdę jesteś i dokąd chcesz zmierzać.",
-  buttons = {
-    primary: {
-      text: "Umów wizytę online",
-      url: "/uslugi/nowa",
-    },
-    secondary: {
-      text: "O nas",
-      url: "/o-nas",
-    },
-  },
-  // image = {
-  //   src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-dark-7-tall.svg",
-  //   alt: "Placeholder",
-  // },
-}: HeroSection) => {
+export const HeroSection = () => {
   return (
-    <div className="flex flex-col items-center gap-10 lg:my-0 lg:flex-row">
-      <div className="flex flex-col gap-7 lg:w-2/3">
-        <h2 className="text-foreground text-5xl font-semibold md:text-5xl lg:text-8xl">
-          <span>{heading}</span>
-          <span className="text-muted-foreground">{subheading}</span>
-        </h2>
-        <p className="text-muted-foreground text-base md:text-lg lg:text-xl">
-          {description}
-        </p>
-        <div className="flex flex-col-reverse flex-wrap items-start gap-4 sm:flex-row lg:gap-7">
-          {buttons.primary && (
-            <Link href={buttons.primary.url} className="w-full sm:w-auto">
-              <Button size="lg" className="w-full">
-                <PlusIcon />
-                {buttons.primary.text}
-              </Button>
-            </Link>
-          )}
-          {buttons.secondary && (
-            <Link href={buttons.secondary.url} className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="w-full">
-                <ArrowUpRight />
-                {buttons.secondary.text}
-              </Button>
-            </Link>
-          )}
+    <>
+      <div className="text-center">
+        <div>
+          <Badge className="bg-primary/60 text-foreground mb-4 rounded-full px-4 py-2 text-sm font-medium">
+            ✨ Odblokuj swój potencjał.
+          </Badge>
+        </div>
+
+        <div>
+          <SectionHeader
+            title="Osiągaj cele z pełną świadomością i pewnością siebie."
+            titleClassName="text-center"
+            heading={H1}
+            subtitleClassName="text-foreground/80 text-base md:text-base max-w-xl mx-auto"
+            subtitle="Coaching, który prowadzi do prawdziwej zmiany – zawodowej, osobistej i emocjonalnej. Odkryj, kim naprawdę jesteś i dokąd chcesz zmierzać."
+          />
         </div>
       </div>
-      {/* <div className="relative z-10">
-          <div className="absolute top-2.5 left-1/2! h-[92%]! w-[69%]! -translate-x-[52%] overflow-hidden rounded-[35px]">
-            <img
-              src={image.src}
-              alt={image.alt}
-              className="size-full object-cover object-[50%_0%]"
-            />
-          </div>
-          <img
-            className="relative z-10"
-            src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/mockups/phone-2.png"
-            width={450}
-            height={889}
-            alt="iphone"
-          />
-        </div> */}
-    </div>
+      <div>
+        <Card className="mb-12 border-0 shadow-md backdrop-blur-sm">
+          <CardContent className="mdp-8">
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                    <CheckIcon className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 font-semibold">
+                      Zyskasz większą pewność siebie
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
+                    <ClockIcon className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 font-semibold">
+                      Nauczysz się podejmować decyzje w zgodzie ze sobą
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-100">
+                    <SearchIcon className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 font-semibold">
+                      Poprawisz relacje osobiste i zawodowe.
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orange-100">
+                    <StarIcon className="h-5 w-5 text-orange-600" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 font-semibold">
+                      Odkryjesz swoje mocne strony i nauczysz się z nich
+                      korzystać.
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="text-center">
+        <Link href="/uslugi/nowa" aria-label="Przejdź do strony book app">
+          <Button>Umów wizytę online</Button>
+        </Link>
+
+        <p className="text-foreground/80 mt-4 text-sm">
+          Umawiaj online • Wybieraj wygodne terminy
+        </p>
+      </div>
+    </>
   );
 };

@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <>
       <SectionWrapper>
-        <MaxWidthWrapper>
+        <MaxWidthWrapper size="sm">
           <HeroSection />
         </MaxWidthWrapper>
       </SectionWrapper>

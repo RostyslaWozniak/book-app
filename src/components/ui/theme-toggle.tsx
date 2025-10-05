@@ -4,12 +4,9 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/shadcn-ui/button";
-import { useEffect } from "react";
 
 export function ThemeToggle() {
-  const { setTheme, theme } = useTheme();
-
-  useEffect(() => console.log(theme), [theme]);
+  const { setTheme } = useTheme();
 
   return (
     <Button

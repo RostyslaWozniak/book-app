@@ -15,7 +15,7 @@ const navigation = [
 
 export function PublicHeader() {
   return (
-    <header className="bg-card py-2">
+    <header className="bg-card sticky top-0 z-50 w-screen py-2">
       <MaxWidthWrapper className="flex items-center justify-between">
         <nav className="hidden md:block">
           <ul className="flex gap-x-4">
