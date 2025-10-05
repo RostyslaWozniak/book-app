@@ -23,6 +23,7 @@ export async function ActiveAppointments({
       appointments={appointments}
       appointmentsCount={appointmentsCount}
       title="Zaplanowane wizyty"
+      showPagination={take > 1}
       moreHref="/profile/visits/active"
       emptyComponent={() => (
         <EmptyResult

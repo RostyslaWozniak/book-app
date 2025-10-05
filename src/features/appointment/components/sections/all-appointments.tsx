@@ -6,19 +6,21 @@ import { Button } from "@/components/shadcn-ui/button";
 import Link from "next/link";
 
 export async function AllAppointments({
-  take = 9,
-  skip = 0,
+  take,
+  skip,
 }: {
-  take?: number;
-  skip?: number;
+  take: number;
+  skip: number;
 }) {
   const { appointments, appointmentsCount } =
     await api.private.appointment.getAll({ take, skip });
+
   return (
     <>
       <AppointmentsList
         appointments={appointments}
         appointmentsCount={appointmentsCount}
+        showPagination={take > 1}
         title="Wszystkie wizyty"
         emptyComponent={() => (
           <EmptyResult

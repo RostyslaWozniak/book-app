@@ -15,8 +15,10 @@ export default async function ProfileVisitsPage({
   const skip = (pageNumber - 1) * PROFILE_APPOINTMENTS_PER_PAGE;
 
   return (
-    <AppointmentsSuspenseViewWrapper skeletonsToShow={3}>
-      <AllAppointments take={PROFILE_APPOINTMENTS_PER_PAGE} skip={skip} />
-    </AppointmentsSuspenseViewWrapper>
+    <>
+      <AppointmentsSuspenseViewWrapper skeletonsToShow={3}>
+        <AllAppointments take={PROFILE_APPOINTMENTS_PER_PAGE} skip={skip} />
+      </AppointmentsSuspenseViewWrapper>
+    </>
   );
 }

@@ -22,6 +22,7 @@ export async function FinishedAppointments({
       appointments={appointments}
       appointmentsCount={appointmentsCount}
       title="Zakończone wizyty"
+      showPagination={take > 1}
       emptyComponent={() => (
         <EmptyResult
           icon={ClockIcon}

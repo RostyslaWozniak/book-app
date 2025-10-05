@@ -22,6 +22,7 @@ export async function CanceledAppointments({
       appointments={appointments}
       appointmentsCount={appointmentsCount}
       title="Anulowane wizyty"
+      showPagination={take > 1}
       emptyComponent={() => (
         <EmptyResult
           icon={ClockIcon}
