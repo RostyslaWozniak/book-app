@@ -34,7 +34,7 @@ export function PublicHeader() {
             className="hidden md:flex"
             aria-label="Przejdź do umawiania wizyty"
           >
-            <Button variant="secondary">
+            <Button>
               Umów wizytę
               <PlusIcon />
             </Button>
@@ -44,7 +44,7 @@ export function PublicHeader() {
             className="w-min sm:mx-0"
             aria-label="Przejdź do logowania"
           >
-            <Button>
+            <Button variant="secondary">
               Zaloguj się
               <LogInIcon />
             </Button>

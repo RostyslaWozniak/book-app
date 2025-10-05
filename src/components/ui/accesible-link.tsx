@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 
 // Extract all Link props except children and add required aria-label
 interface AccessibleLinkProps extends Omit<LinkProps, "children"> {
-  "aria-label": string;
+  "aria-label"?: string;
   children?: React.ReactNode;
   className?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
@@ -33,7 +33,7 @@ export const AccessibleLink = forwardRef<
       ref={ref}
       aria-label={ariaLabel}
       className={cn(
-        "grid min-h-12 w-full min-w-12 place-items-center text-nowrap sm:mx-auto sm:w-min",
+        "grid min-h-12 w-full min-w-12 place-items-center text-nowrap sm:mx-0 sm:w-min",
         className,
       )}
     >

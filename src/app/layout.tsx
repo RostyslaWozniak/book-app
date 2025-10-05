@@ -21,7 +21,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pl" className={`${geist.variable}`} suppressHydrationWarning>
-      <body className="flex min-h-screen w-screen flex-col overflow-x-hidden">
+      <body className="flex min-h-screen w-screen flex-col overflow-x-hidden pb-20 md:pb-0">
         <Providers>
           {children}
           <Toaster richColors position="top-center" />

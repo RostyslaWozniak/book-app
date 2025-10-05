@@ -23,9 +23,9 @@ export default function PublicLayout({
   return (
     <>
       <PublicHeader />
-      <main className="flex-grow">
+      <main className="min-h-screen flex-grow">
         <SectionWrapper paddingBlock="none" className="mt-4">
-          <MaxWidthWrapper>
+          <MaxWidthWrapper className="px-0 md:px-4">
             <Breadcrumb />
           </MaxWidthWrapper>
         </SectionWrapper>

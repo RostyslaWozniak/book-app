@@ -7,6 +7,9 @@ import { AdminProviderToggle } from "@/features/admin/components/admin-provider-
 import { SidebarProviderWrapper } from "@/components/providers/sidebar-provider-wrapper";
 import { AdminMobileNav } from "@/components/mobile-nav/admin-mobile-nav";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { EmptyResult } from "@/components/ui/empty-result";
+import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
+import { XIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "System dla rezerwacji wizyt online - Book App",
@@ -32,6 +35,16 @@ export default function ProviderLayout({
         </div>
         <AdminMobileNav />
       </SidebarProviderWrapper>
+      <div className="bg-background fixed inset-0 z-50 flex items-center justify-center text-center lg:hidden">
+        <MaxWidthWrapper size="xs">
+          <EmptyResult
+            icon={XIcon}
+            iconClassName="text-destructive bg-destructive/20"
+            title="Urządzenie nieobsługiwane"
+            description="Ta aplikacja nie działa na telefonach ani tabletach. Aby kontynuować, użyj komputera lub laptopa — rozmiar ekranu nie jest obsługiwany."
+          />
+        </MaxWidthWrapper>
+      </div>
     </>
   );
 }

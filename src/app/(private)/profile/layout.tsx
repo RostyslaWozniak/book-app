@@ -22,9 +22,7 @@ export default function ProfileLayout({
         </MaxWidthWrapper>
       </SectionWrapper>
       {children}
-      <div className="min-h-24">
-        <ProfileMobileNav />
-      </div>
+      <ProfileMobileNav />
     </>
   );
 }
