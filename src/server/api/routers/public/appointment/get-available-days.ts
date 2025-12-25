@@ -79,7 +79,7 @@ export const getAvailableDays = publicProcedure
     if (availableProviders.length === 0) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Nie znaleziono dostępnych serwisantów",
+        message: "Nie znaleziono dostępnych specjalistów",
       });
     }
     // Transform vet services into a more convenient format
